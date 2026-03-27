@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Hệ thống Tài chính Đa tầng | Portal Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -11,168 +11,186 @@
         body {
             font-family: 'Inter', sans-serif;
             background: radial-gradient(circle at top left, #1e293b, #0f172a);
-            height: 100vh;
+            background-attachment: fixed; /* Giữ nền cố định khi cuộn */
+            min-height: 100vh; /* Thay height bằng min-height */
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
+            overflow-x: hidden; /* Chống tràn ngang */
+            overflow-y: auto;   /* Cho phép cuộn dọc */
             color: white;
+            padding: 20px 0; /* Thêm khoảng cách trên dưới cho mobile */
         }
 
         .bg-glow {
-            position: absolute;
-            width: 400px; height: 400px;
+            position: fixed; /* Thay absolute bằng fixed để không chạy khi cuộn */
+            width: 300px; height: 300px;
             background: rgba(45, 212, 191, 0.1);
-            filter: blur(100px);
+            filter: blur(80px);
             border-radius: 50%;
             z-index: -1;
         }
 
         /* Hiệu ứng kính mờ Glassmorphism */
         .glass-card {
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 40px;
+            border-radius: 30px;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         /* Thẻ module điều hướng */
         .module-card {
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: 0.3s;
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
+            border-radius: 24px;
         }
 
-        .module-card:hover {
-            background: rgba(45, 212, 191, 0.1);
-            border-color: #2dd4bf;
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(45, 212, 191, 0.2);
+        .module-card:active { /* Hiệu ứng nhấn trên điện thoại */
+            transform: scale(0.95);
+            background: rgba(45, 212, 191, 0.2);
+        }
+
+        @media (min-width: 1024px) {
+            .module-card:hover {
+                background: rgba(45, 212, 191, 0.1);
+                border-color: #2dd4bf;
+                transform: translateY(-5px);
+            }
         }
 
         .hidden-section {
             display: none;
             opacity: 0;
-            transform: scale(0.9);
+            transform: translateY(20px);
         }
 
         .visible-section {
             display: block;
-            animation: fadeIn 0.6s forwards cubic-bezier(0.4, 0, 0.2, 1);
+            animation: fadeIn 0.6s forwards ease-out;
         }
 
         @keyframes fadeIn {
-            to { opacity: 1; transform: scale(1); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .btn-shine {
             background: linear-gradient(90deg, #0d9488, #2dd4bf);
             transition: 0.3s;
         }
-
-        .btn-shine:hover {
-            box-shadow: 0 0 20px rgba(45, 212, 191, 0.5);
-            transform: scale(1.02);
-        }
     </style>
     <link rel="manifest" href="manifest.json">
-
 </head>
 <body>
 
-    <div class="bg-glow" style="top: -10%; left: -10%;"></div>
-    <div class="bg-glow" style="bottom: -10%; right: -10%; background: rgba(234, 179, 8, 0.05);"></div>
+    <div class="bg-glow" style="top: -5%; left: -5%;"></div>
+    <div class="bg-glow" style="bottom: -5%; right: -5%; background: rgba(234, 179, 8, 0.05);"></div>
 
     <!-- MÀN HÌNH 1: ĐĂNG NHẬP -->
-    <div id="login-section" class="glass-card w-full max-w-md p-10 mx-4">
-        <div class="text-center mb-10">
+    <div id="login-section" class="glass-card w-full max-w-[90%] sm:max-w-md p-8 sm:p-10 mx-4 transition-all duration-500">
+        <div class="text-center mb-8">
             <div class="w-16 h-16 bg-teal-500 rounded-2xl mx-auto mb-4 flex items-center justify-center shadow-lg shadow-teal-500/50 rotate-12">
                 <i class="fas fa-lock text-2xl text-white -rotate-12"></i>
             </div>
-            <h1 class="text-2xl font-black tracking-tighter">PHÒNG ĐIỀU KIỂN <span class="text-teal-400 text-sm">V1.0</span></h1>
-            <p class="text-gray-400 text-[10px] uppercase tracking-widest mt-1">Xác thực quyền truy cập hệ thống</p>
+            <h1 class="text-xl sm:text-2xl font-black tracking-tighter uppercase">Phòng điều khiển <span class="text-teal-400 text-xs">V1.0</span></h1>
+            <p class="text-gray-400 text-[9px] uppercase tracking-widest mt-1">Xác thực quyền truy cập</p>
         </div>
 
         <form id="loginForm" class="space-y-6">
             <div class="space-y-4">
-                <input type="password" id="password" placeholder="Mật mã bảo mật" 
-                    class="w-full px-6 py-4 rounded-2xl bg-white/5 border border-white/10 outline-none focus:border-teal-400 transition text-center tracking-[0.5em] font-black">
+                <input type="password" id="password" inputmode="numeric" placeholder="••••••" 
+                    class="w-full px-4 py-4 rounded-2xl bg-white/5 border border-white/10 outline-none focus:border-teal-400 transition text-center tracking-[0.5em] font-black text-white">
             </div>
-            <button type="submit" class="w-full btn-shine py-4 rounded-2xl font-black text-xs uppercase tracking-[0.2em]">
+            <button type="submit" class="w-full btn-shine py-4 rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-lg shadow-teal-500/20">
                 Mở khóa hệ thống
             </button>
         </form>
     </div>
 
     <!-- MÀN HÌNH 2: HUB ĐIỀU HƯỚNG (Sau khi đăng nhập) -->
-    <div id="portal-section" class="hidden-section w-full max-w-5xl px-4">
-        <div class="text-center mb-12">
-            <h2 class="text-4xl font-black tracking-tighter mb-2 italic">DASHBOARD <span class="text-teal-400">INVEST</span></h2>
-            <p class="text-gray-400 text-xs uppercase tracking-[0.3em]">Chọn module tài chính cần quản trị</p>
+    <div id="portal-section" class="hidden-section w-full max-w-5xl px-6">
+        <div class="text-center mb-8">
+            <h2 class="text-3xl sm:text-4xl font-black tracking-tighter mb-2 italic uppercase">Dashboard <span class="text-teal-400">Invest</span></h2>
+            <p class="text-gray-400 text-[10px] uppercase tracking-[0.2em]">Hệ thống quản trị tài chính</p>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- Thẻ 1: Chi tiêu (chitieu.html) -->
-            <div onclick="navTo('chitieu.html')" class="module-card p-8 rounded-[35px] flex flex-col items-center text-center">
-                <div class="w-16 h-16 bg-blue-500/20 text-blue-400 rounded-2xl flex items-center justify-center mb-4 text-2xl">
+        <!-- Grid chia cột: 1 cột trên mobile, 2 cột trên tablet, 3 cột trên PC -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+            
+            <!-- Thẻ 1 -->
+            <div onclick="navTo('chitieu.html')" class="module-card p-6 sm:p-8 flex flex-row sm:flex-col items-center gap-4 sm:text-center">
+                <div class="w-12 h-12 sm:w-16 sm:h-16 bg-blue-500/20 text-blue-400 rounded-2xl flex items-center justify-center text-xl sm:text-2xl shrink-0">
                     <i class="fas fa-wallet"></i>
                 </div>
-                <h3 class="font-black text-sm uppercase tracking-wide">Quản lý Chi tiêu</h3>
-                <p class="text-gray-500 text-[10px] mt-2">Dòng tiền hàng ngày & Tăng ca</p>
+                <div>
+                    <h3 class="font-black text-xs sm:text-sm uppercase tracking-wide">Chi tiêu</h3>
+                    <p class="text-gray-500 text-[9px] sm:text-[10px] mt-1">Dòng tiền & Tăng ca</p>
+                </div>
             </div>
 
-            <!-- Thẻ 2: Chứng khoán (1.html) -->
-            <div onclick="navTo('1.html')" class="module-card p-8 rounded-[35px] flex flex-col items-center text-center">
-                <div class="w-16 h-16 bg-emerald-500/20 text-emerald-400 rounded-2xl flex items-center justify-center mb-4 text-2xl">
+            <!-- Thẻ 2 -->
+            <div onclick="navTo('1.html')" class="module-card p-6 sm:p-8 flex flex-row sm:flex-col items-center gap-4 sm:text-center">
+                <div class="w-12 h-12 sm:w-16 sm:h-16 bg-emerald-500/20 text-emerald-400 rounded-2xl flex items-center justify-center text-xl sm:text-2xl shrink-0">
                     <i class="fas fa-chart-line"></i>
                 </div>
-                <h3 class="font-black text-sm uppercase tracking-wide">Chứng khoán</h3>
-                <p class="text-gray-500 text-[10px] mt-2">Danh mục cổ phiếu & Lợi nhuận</p>
+                <div>
+                    <h3 class="font-black text-xs sm:text-sm uppercase tracking-wide">Chứng khoán</h3>
+                    <p class="text-gray-500 text-[9px] sm:text-[10px] mt-1">Cổ phiếu & Lợi nhuận</p>
+                </div>
             </div>
 
-            <!-- Thẻ 3: Vàng & Kim loại (2.html) -->
-            <div onclick="navTo('2.html')" class="module-card p-8 rounded-[35px] flex flex-col items-center text-center">
-                <div class="w-16 h-16 bg-yellow-500/20 text-yellow-400 rounded-2xl flex items-center justify-center mb-4 text-2xl">
+            <!-- Thẻ 3 -->
+            <div onclick="navTo('2.html')" class="module-card p-6 sm:p-8 flex flex-row sm:flex-col items-center gap-4 sm:text-center">
+                <div class="w-12 h-12 sm:w-16 sm:h-16 bg-yellow-500/20 text-yellow-400 rounded-2xl flex items-center justify-center text-xl sm:text-2xl shrink-0">
                     <i class="fas fa-coins"></i>
                 </div>
-                <h3 class="font-black text-sm uppercase tracking-wide">Vàng & Ngoại tệ</h3>
-                <p class="text-gray-500 text-[10px] mt-2">Trữ lượng vàng & Tỷ giá hối đoái</p>
+                <div>
+                    <h3 class="font-black text-xs sm:text-sm uppercase tracking-wide">Vàng & Tỷ giá</h3>
+                    <p class="text-gray-500 text-[9px] sm:text-[10px] mt-1">Ngoại tệ & Kim loại</p>
+                </div>
             </div>
 
-            <!-- Thẻ 4: Bất động sản (3.html) -->
-            <div onclick="navTo('3.html')" class="module-card p-8 rounded-[35px] flex flex-col items-center text-center">
-                <div class="w-16 h-16 bg-purple-500/20 text-purple-400 rounded-2xl flex items-center justify-center mb-4 text-2xl">
+            <!-- Thẻ 4 -->
+            <div onclick="navTo('3.html')" class="module-card p-6 sm:p-8 flex flex-row sm:flex-col items-center gap-4 sm:text-center">
+                <div class="w-12 h-12 sm:w-16 sm:h-16 bg-purple-500/20 text-purple-400 rounded-2xl flex items-center justify-center text-xl sm:text-2xl shrink-0">
                     <i class="fas fa-landmark"></i>
                 </div>
-                <h3 class="font-black text-sm uppercase tracking-wide">Bất động sản</h3>
-                <p class="text-gray-500 text-[10px] mt-2">Quản lý đất đai & Thuê nhà</p>
+                <div>
+                    <h3 class="font-black text-xs sm:text-sm uppercase tracking-wide">Bất động sản</h3>
+                    <p class="text-gray-500 text-[9px] sm:text-[10px] mt-1">Đất đai & Nhà thuê</p>
+                </div>
             </div>
 
-            <!-- Thẻ 5: Tiền tiết kiệm (4.html) -->
-            <div onclick="navTo('4.html')" class="module-card p-8 rounded-[35px] flex flex-col items-center text-center">
-                <div class="w-16 h-16 bg-pink-500/20 text-pink-400 rounded-2xl flex items-center justify-center mb-4 text-2xl">
+            <!-- Thẻ 5 -->
+            <div onclick="navTo('4.html')" class="module-card p-6 sm:p-8 flex flex-row sm:flex-col items-center gap-4 sm:text-center">
+                <div class="w-12 h-12 sm:w-16 sm:h-16 bg-pink-500/20 text-pink-400 rounded-2xl flex items-center justify-center text-xl sm:text-2xl shrink-0">
                     <i class="fas fa-piggy-bank"></i>
                 </div>
-                <h3 class="font-black text-sm uppercase tracking-wide">Quỹ dự phòng</h3>
-                <p class="text-gray-500 text-[10px] mt-2">Tiền mặt tiết kiệm & Khẩn cấp</p>
+                <div>
+                    <h3 class="font-black text-xs sm:text-sm uppercase tracking-wide">Quỹ dự phòng</h3>
+                    <p class="text-gray-500 text-[9px] sm:text-[10px] mt-1">Tiền mặt tiết kiệm</p>
+                </div>
             </div>
 
-            <!-- Thẻ 6: Coming Soon -->
-            <div class="module-card p-8 rounded-[35px] flex flex-col items-center text-center opacity-50 cursor-not-allowed">
-                <div class="w-16 h-16 bg-gray-500/20 text-gray-400 rounded-2xl flex items-center justify-center mb-4 text-2xl">
+            <!-- Thẻ 6 (Disabled) -->
+            <div class="module-card p-6 sm:p-8 flex flex-row sm:flex-col items-center gap-4 sm:text-center opacity-40 cursor-not-allowed">
+                <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gray-500/20 text-gray-400 rounded-2xl flex items-center justify-center text-xl sm:text-2xl shrink-0">
                     <i class="fas fa-plus"></i>
                 </div>
-                <h3 class="font-black text-sm uppercase tracking-wide">Thêm module</h3>
-                <p class="text-gray-500 text-[10px] mt-2">Mở rộng đầu tư tương lai</p>
+                <div>
+                    <h3 class="font-black text-xs sm:text-sm uppercase tracking-wide">Thêm mới</h3>
+                    <p class="text-gray-500 text-[9px] sm:text-[10px] mt-1">Mở rộng đầu tư</p>
+                </div>
             </div>
         </div>
         
-        <div class="text-center mt-12">
-            <button onclick="location.reload()" class="text-gray-500 hover:text-white text-[10px] font-bold uppercase tracking-[0.2em] transition">
-                <i class="fas fa-power-off mr-2"></i> Khóa phiên làm việc
+        <div class="text-center mt-10 mb-10">
+            <button onclick="location.reload()" class="bg-white/5 px-6 py-3 rounded-full text-gray-400 hover:text-white text-[10px] font-bold uppercase tracking-[0.2em] transition border border-white/10">
+                <i class="fas fa-power-off mr-2"></i> Khóa phiên
             </button>
         </div>
     </div>
@@ -182,26 +200,25 @@
             e.preventDefault();
             const pass = document.getElementById('password').value;
 
-            // Ở đây tui để mật khẩu là '123' cho ông test nhé
             if(pass === "123") {
                 const loginSection = document.getElementById('login-section');
                 const portalSection = document.getElementById('portal-section');
 
-                // Hiệu ứng biến mất màn hình đăng nhập
                 loginSection.style.opacity = "0";
-                loginSection.style.transform = "scale(1.1)";
+                loginSection.style.transform = "translateY(-20px)";
                 
                 setTimeout(() => {
                     loginSection.classList.add('hidden');
                     portalSection.classList.add('visible-section');
+                    // Tự động cuộn lên đầu khi đăng nhập xong
+                    window.scrollTo(0,0);
                 }, 400);
             } else {
-                alert("Mật mã sai! Vui lòng thử lại.");
+                alert("Mật mã sai!");
                 document.getElementById('password').value = "";
             }
         });
 
-        // Hàm điều hướng
         function navTo(url) {
             document.body.style.opacity = "0";
             document.body.style.transition = "0.4s";

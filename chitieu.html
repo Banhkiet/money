@@ -4,274 +4,191 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Finance Pro Max - Mobile Optimized</title>
+    <title>Hệ thống Tài chính Pro Max - Mobile Optimized</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root {
-            --teal-3d: #1a535c;
-            --bg-sidebar: #fff7ed;
-        }
+        :root { --teal-3d: #1a535c; --bg-sidebar: #fff7ed; }
+        body { background: #cbd5e1; font-family: 'Segoe UI', sans-serif; padding: 10px; margin: 0; }
 
-        body {
-            background: #cbd5e1;
-            font-family: 'Segoe UI', sans-serif;
-            padding: 8px;
-            /* Giảm padding ngoài trên mobile */
-            overflow-x: hidden;
-        }
+        /* Tối ưu Glass Card cho Mobile */
+        .glass-card { background: white; border-radius: 20px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); overflow: hidden; }
 
-        .glass-card {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-            overflow: hidden;
-        }
-
-        /* Tối ưu bảng cho Mobile */
-        .table-container {
-            width: 100%;
-            overflow-x: auto;
-            /* Cho phép vuốt ngang bảng trên đt */
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .main-table {
-            min-width: 340px;
-            /* Đảm bảo bảng không bị bóp quá nhỏ */
-        }
-
-        .main-table th {
-            background: linear-gradient(180deg, #2c7a7b 0%, #1a535c 100%);
-            color: white;
-            padding: 10px 5px;
-            font-size: 10px;
-            white-space: nowrap;
-        }
-
-        .main-table td {
-            border-bottom: 1px solid #f1f5f9;
-            padding: 10px 5px;
-            text-align: center;
-            font-size: 11px;
-        }
-
-        /* Sidebar tối ưu cho mobile */
-        #settings-sidebar {
-            position: fixed;
-            top: 0;
-            left: -100%;
-            width: 85%;
-            /* Chiếm 85% chiều ngang đt */
-            max-width: 400px;
-            height: 100%;
-            background: var(--bg-sidebar);
-            z-index: 1000;
-            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            padding: 20px;
-            box-shadow: 15px 0 40px rgba(0, 0, 0, 0.2);
-            overflow-y: auto;
-        }
-
-        #settings-sidebar.active {
-            left: 0;
-        }
-
-        /* Biểu đồ cột co giãn */
-        .column-chart-container {
-            display: flex;
-            align-items: flex-end;
-            justify-content: space-around;
-            gap: 5px;
-            height: 140px;
-            padding: 5px;
-            border-bottom: 2px solid #1a535c;
-        }
-
-        .chart-column {
-            width: 25px;
-            /* Nhỏ lại để chứa được nhiều cột trên đt */
-            border-radius: 3px;
-        }
-
-        /* Nút lọc kiểu App chuyên nghiệp */
-        .filter-btn {
-            padding: 6px 10px;
-            border-radius: 8px;
-            font-weight: 800;
-            background: white;
-            border: 1px solid #1a535c;
-            color: #1a535c;
-            font-size: 10px;
-            white-space: nowrap;
-        }
-
-        .filter-btn.active {
-            background: #1a535c;
-            color: white;
-        }
-
-        /* Ô nhập liệu dạng thẻ (Card) */
-        .input-card {
-            padding: 15px;
-            border-radius: 18px;
-            margin-bottom: 12px;
-        }
+        /* Bảng cuộn ngang mượt */
+        .table-responsive { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 12px; }
+        .main-table { min-width: 450px; width: 100%; border-collapse: collapse; }
+        .main-table th { background: linear-gradient(180deg, #2c7a7b 0%, #1a535c 100%); color: white; padding: 12px 8px; font-size: 11px; white-space: nowrap; }
+        .main-table td { border: 1px solid #e2e8f0; padding: 10px 6px; text-align: center; font-size: 12px; }
 
         /* Thanh tiến độ 3D */
-        .bar-3d-track {
-            height: 24px;
-            background: #f1f5f9;
-            border-radius: 10px;
-            position: relative;
-            margin: 15px 0;
-            overflow: hidden;
-        }
+        .bar-3d-track { height: 26px; background: #f1f5f9; border-radius: 50px; position: relative; margin: 15px 0; border: 1px solid #e2e8f0; overflow: hidden; }
+        .bar-prev-fill { height: 100%; background: #fb923c; opacity: 0.3; position: absolute; z-index: 1; }
+        .bar-3d-fill { height: 100%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 900; position: absolute; font-size: 10px; z-index: 5; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); transition: 1s cubic-bezier(0.4, 0, 0.2, 1); }
 
-        .bar-3d-fill {
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 9px;
-            font-weight: 900;
-        }
+        /* Sidebar rộng 90% trên mobile */
+        #settings-sidebar { position: fixed; top: 0; left: -100%; width: 90%; max-width: 400px; height: 100%; background: var(--bg-sidebar); z-index: 1000; transition: 0.4s; padding: 20px; box-shadow: 15px 0 40px rgba(0, 0, 0, 0.2); overflow-y: auto; }
+        #settings-sidebar.active { left: 0; }
+        .overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.6); display: none; z-index: 900; backdrop-filter: blur(4px); }
 
-        /* Ẩn các thanh cuộn để giống App hơn */
-        ::-webkit-scrollbar {
-            display: none;
-        }
+        /* Chart cuộn ngang */
+        .column-chart-container { display: flex; align-items: flex-end; gap: 10px; height: 150px; padding: 10px; border-bottom: 2px solid #1a535c; overflow-x: auto; scrollbar-width: none; }
+        .chart-column { width: 35px; flex: none; display: flex; flex-direction: column; justify-content: flex-end; position: relative; }
+        .part-expense { background: linear-gradient(180deg, #f87171, #dc2626); width: 100%; }
+        .part-income { background: linear-gradient(180deg, #4ade80, #16a34a); width: 100%; }
+        .chart-label { font-size: 10px; text-align: center; font-weight: bold; margin-top: 5px; color: #334155; }
+
+        /* Nút lọc vuốt ngang */
+        .filter-scroll { display: flex; overflow-x: auto; gap: 8px; padding-bottom: 5px; -ms-overflow-style: none; scrollbar-width: none; }
+        .filter-scroll::-webkit-scrollbar { display: none; }
+        .filter-btn { flex: 0 0 auto; padding: 8px 15px; border-radius: 12px; font-weight: 800; background: white; border: 2px solid #1a535c; color: #1a535c; font-size: 11px; }
+        .filter-btn.active { background: #1a535c; color: white; transform: scale(1.05); }
+
+        /* Tối ưu Switch & Input */
+        .switch { position: relative; display: inline-block; width: 44px; height: 22px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; inset: 0; background-color: #ef4444; border-radius: 22px; transition: .4s; }
+        .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px; background-color: white; border-radius: 50%; transition: .4s; }
+        input:checked+.slider { background-color: #10b981; }
+        input:checked+.slider:before { transform: translateX(22px); }
+        
+        .currency-input { font-family: 'Courier New', monospace; font-weight: bold; }
     </style>
 </head>
 
 <body>
 
     <div id="main-app" class="max-w-4xl mx-auto">
-        <!-- Header Section -->
-        <div class="flex items-center gap-2 mb-3">
-            <button onclick="toggleSidebar()" class="bg-white p-3 rounded-xl shadow-sm text-teal-900">
-                <i class="fas fa-bars"></i>
+        <!-- HEADER -->
+        <div class="grid grid-cols-4 gap-2 mb-4">
+            <button onclick="toggleSidebar()" class="col-span-1 bg-white p-3 rounded-2xl shadow-md text-teal-900 flex flex-col items-center justify-center">
+                <i class="fas fa-cog text-xl"></i>
+                <span class="text-[8px] font-bold uppercase mt-1">Cấu hình</span>
             </button>
-            <div class="flex-1 bg-teal-900 text-white p-3 rounded-xl shadow-lg flex justify-between items-center">
+            <div class="col-span-3 bg-gradient-to-r from-teal-900 to-teal-700 text-white p-3 rounded-2xl shadow-lg flex justify-between items-center">
                 <div>
-                    <p class="text-[8px] opacity-70 font-bold uppercase">Lương Cơ Bản</p>
-                    <p class="text-lg font-black" id="base-salary-view">0</p>
+                    <p class="text-[9px] opacity-80 font-bold uppercase">Lương Cơ Bản</p>
+                    <p class="text-xl font-black" id="base-salary-view">0</p>
                 </div>
                 <div class="text-right">
-                    <p class="text-[8px] opacity-70 font-bold uppercase" id="filter-status">HÔM NAY</p>
-                    <p class="font-black text-orange-400 text-sm tracking-tighter">FINANCE HUB</p>
+                    <p class="text-[9px] opacity-80 font-bold uppercase" id="filter-status">HÔM NAY</p>
+                    <button onclick="logout()" class="text-red-400 text-lg mt-1"><i class="fas fa-power-off"></i></button>
                 </div>
             </div>
         </div>
 
-        <!-- Filter Tabs (Scrollable on mobile) -->
-        <div class="flex overflow-x-auto gap-2 pb-3 no-scrollbar">
-            <button onclick="setFilter('day')" id="f-day" class="filter-btn active">Ngày</button>
+        <!-- BỘ LỌC -->
+        <div class="filter-scroll mb-4">
+            <button onclick="setFilter('day')" id="f-day" class="filter-btn active">Hôm nay</button>
             <button onclick="setFilter('week')" id="f-week" class="filter-btn">Tuần</button>
             <button onclick="setFilter('month')" id="f-month" class="filter-btn">Tháng</button>
             <button onclick="setFilter('year')" id="f-year" class="filter-btn">Năm</button>
-            <button onclick="setFilter('century')" id="f-century" class="filter-btn">2026+</button>
+            <button onclick="setFilter('century')" id="f-century" class="filter-btn">Thế kỷ</button>
         </div>
 
-        <!-- Chart Section -->
-        <div id="chart-section" class="hidden bg-white p-4 rounded-2xl shadow-sm mb-4">
+        <!-- CHART -->
+        <div id="chart-section" class="hidden bg-white p-4 rounded-3xl shadow-md mb-4 overflow-hidden">
+            <h4 class="text-[10px] font-black text-teal-900 uppercase mb-3 text-center">Phân bổ Thu (Xanh) - Chi (Đỏ)</h4>
             <div class="column-chart-container" id="chart-bars"></div>
         </div>
 
-        <!-- Main Data Table Card -->
+        <!-- BẢNG DỮ LIỆU -->
         <div class="glass-card mb-4">
-            <div class="table-container max-h-[300px] overflow-y-auto">
-                <table class="w-full main-table">
-                    <thead class="sticky top-0 z-10" id="table-head"></thead>
+            <div class="table-responsive">
+                <table class="main-table">
+                    <thead id="table-head"></thead>
                     <tbody id="expense-body"></tbody>
                 </table>
             </div>
+            <div id="table-foot" class="p-3 bg-slate-50 font-black text-xs text-center border-t"></div>
 
-            <!-- Summary Footer for Table -->
-            <div id="table-foot" class="p-3 bg-slate-50 border-t border-gray-100 text-[11px] font-bold text-center">
+            <!-- NHẬP LIỆU (CHỈ HIỆN KHI LỌC NGÀY) -->
+            <div id="input-container" class="p-3 border-t-4 border-teal-950 space-y-3 bg-gray-50">
+                <!-- THU -->
+                <div class="p-3 bg-green-50 rounded-xl border border-green-200">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-[10px] font-bold text-green-800 uppercase">Thu nhập (+)</span>
+                        <span id="ot-calc-preview" class="text-[10px] font-black text-green-600">↑ 0</span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 mb-2">
+                        <input type="number" id="ot-hours" placeholder="Giờ TC" class="p-2 border rounded-lg text-sm font-bold" oninput="calcOT()">
+                        <button onclick="saveOT()" class="bg-green-600 text-white font-bold rounded-lg text-[10px]">LƯU TĂNG CA</button>
+                    </div>
+                    <div class="flex gap-2">
+                        <input type="text" id="inc-note" placeholder="Nội dung khác..." class="flex-1 p-2 border rounded-lg text-xs">
+                        <input type="text" id="inc-amount" placeholder="Tiền" class="w-24 p-2 border rounded-lg text-xs font-bold currency-input" oninput="formatInputCurrency(this)">
+                        <button onclick="saveOtherInc()" class="bg-teal-700 text-white p-2 rounded-lg text-[10px] font-bold">LƯU</button>
+                    </div>
+                </div>
+                <!-- CHI -->
+                <div class="p-3 bg-red-50 rounded-xl border border-red-200">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-[10px] font-bold text-red-800 uppercase">Chi tiêu (-)</span>
+                        <span id="exp-preview" class="text-[10px] font-black text-red-600">↓ 0</span>
+                    </div>
+                    <input type="text" id="exp-note" placeholder="Đã mua gì?" class="w-full p-2 border rounded-lg text-xs mb-2">
+                    <div class="flex gap-2">
+                        <select id="exp-category" class="flex-1 p-2 border rounded-lg text-xs font-bold bg-white">
+                            <option value="tro">🏠 Trọ</option>
+                            <option value="dilai">🛵 Đi lại</option>
+                            <option value="anuong">🍔 Ăn uống</option>
+                            <option value="dautu">📈 Đầu tư</option>
+                            <option value="phatsinh" selected>📦 Khác</option>
+                        </select>
+                        <input type="text" id="exp-amount" placeholder="Số tiền" class="w-28 p-2 border rounded-lg text-xs font-bold currency-input" oninput="formatInputCurrency(this); calcExp()">
+                        <button onclick="addExp()" class="bg-red-600 text-white px-3 rounded-lg text-[10px] font-bold">CHI</button>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Input Section (Chỉ hiện khi xem theo ngày) -->
-        <div id="input-container" class="space-y-3 mb-24">
-            <!-- Thu Nhập -->
-            <div class="input-card bg-emerald-50 border border-emerald-100">
-                <h5 class="font-black text-green-800 text-[10px] uppercase mb-2">Thu nhập (+)</h5>
-                <div class="grid grid-cols-2 gap-2 mb-3">
-                    <input type="number" id="ot-hours" placeholder="Giờ TC"
-                        class="p-2 rounded-lg border border-green-200 text-sm font-bold w-full" oninput="calcOT()">
-                    <button onclick="saveOT()"
-                        class="bg-green-600 text-white rounded-lg text-[10px] font-black uppercase">Lưu T.Ca</button>
-                </div>
-                <div class="flex gap-2">
-                    <input type="text" id="inc-note" placeholder="Nguồn khác..."
-                        class="flex-1 p-2 rounded-lg border border-green-200 text-xs">
-                    <input type="text" id="inc-amount" placeholder="Tiền"
-                        class="w-24 p-2 rounded-lg border border-green-200 text-xs font-bold currency-input"
-                        oninput="formatInputCurrency(this)">
-                    <button onclick="saveOtherInc()" class="bg-teal-700 text-white px-3 rounded-lg"><i
-                            class="fas fa-plus text-xs"></i></button>
-                </div>
-            </div>
-
-            <!-- Chi Tiêu -->
-            <div class="input-card bg-rose-50 border border-rose-100">
-                <h5 class="font-black text-red-800 text-[10px] uppercase mb-2">Chi tiêu (-)</h5>
-                <input type="text" id="exp-note" placeholder="Ghi chú chi..."
-                    class="w-full p-2 rounded-lg border border-red-200 text-xs mb-2">
-                <div class="flex gap-2 mb-2">
-                    <select id="exp-category" class="flex-1 p-2 rounded-lg border border-red-200 text-[10px] font-bold">
-                        <option value="tro">🏠 Trọ/Điện</option>
-                        <option value="dilai">🛵 Đi lại</option>
-                        <option value="anuong">🍔 Ăn uống</option>
-                        <option value="dautu">📈 Đầu tư</option>
-                        <option value="phatsinh" selected>📦 Khác</option>
-                    </select>
-                    <input type="text" id="exp-amount" placeholder="Số tiền"
-                        class="w-24 p-2 rounded-lg border border-red-200 text-xs font-bold currency-input"
-                        oninput="formatInputCurrency(this)">
-                </div>
-                <button onclick="addExp()"
-                    class="w-full bg-red-600 text-white py-2 rounded-lg text-xs font-black uppercase">Cập nhật chi
-                    tiêu</button>
-            </div>
-        </div>
-
-        <!-- Progress Bars Section -->
-        <div id="bars-section" class="bg-white p-5 rounded-2xl shadow-sm mb-10">
-            <h3 id="bars-title"
-                class="font-black text-[10px] text-teal-900 mb-4 uppercase border-l-4 border-teal-900 pl-2">Tiến độ hạn
-                mức</h3>
+        <!-- TIẾN ĐỘ HẠN MỨC -->
+        <div id="bars-section" class="bg-white p-5 rounded-3xl shadow-lg border-b-8 border-teal-950 mb-10">
+            <h3 id="bars-title" class="font-black text-[11px] text-teal-900 mb-6 uppercase border-l-4 border-teal-950 pl-2">Hạn mức chi tiêu</h3>
             <div id="dynamic-bars" class="space-y-6"></div>
         </div>
     </div>
 
-    <!-- Sidebar & Modals (Giữ nguyên logic nhưng tối ưu CSS) -->
-    <div class="overlay fixed inset-0 bg-black/50 z-[900] hidden backdrop-blur-sm" onclick="toggleSidebar()"></div>
+    <!-- SIDEBAR -->
+    <div class="overlay" onclick="toggleSidebar()"></div>
     <div id="settings-sidebar">
-        <!-- Nội dung sidebar giữ nguyên logic của bạn nhưng thêm class text-sm/text-xs cho gọn -->
+        <div class="flex justify-between items-center mb-6 pb-4 border-b">
+            <h2 class="font-black text-teal-950 uppercase text-sm">Cấu hình</h2>
+            <div class="flex flex-col items-center">
+                <span id="mode-label" class="text-[8px] font-bold text-red-500 mb-1">CHẾ ĐỘ: TEST</span>
+                <label class="switch"><input type="checkbox" id="mode-switch" onchange="confirmAndToggleMode()"><span class="slider"></span></label>
+            </div>
+        </div>
+        <div id="settings-content" class="space-y-4"></div>
+        <button onclick="toggleSidebar()" class="w-full mt-6 bg-teal-900 text-white py-3 rounded-xl font-bold text-sm">ĐÓNG CẤU HÌNH</button>
     </div>
 
-    <!-- Toàn bộ phần logic JS từ code cũ của bạn copy dán vào đây -->
+    <!-- MODAL -->
+    <div id="catalog-modal" class="fixed inset-0 bg-black/80 z-[2000] hidden items-center justify-center p-2 backdrop-blur-md">
+        <div class="bg-white w-full max-h-[90vh] rounded-2xl flex flex-col overflow-hidden">
+            <div class="bg-teal-950 p-4 flex justify-between items-center text-white">
+                <button id="modal-back-btn" onclick="goBackModal()" class="hidden w-8 h-8"><i class="fas fa-arrow-left"></i></button>
+                <h3 id="modal-title" class="text-xs font-bold uppercase truncate px-2">Chi tiết</h3>
+                <button onclick="closeModal()" class="w-8 h-8"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="flex-1 overflow-auto p-2">
+                <div class="table-responsive">
+                    <table class="main-table"><thead id="modal-thead"></thead><tbody id="modal-tbody"></tbody></table>
+                </div>
+            </div>
+            <div id="modal-tfoot" class="p-3 bg-gray-100 font-bold text-xs text-center"></div>
+        </div>
+    </div>
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
         import { getFirestore, doc, setDoc, collection, query, where, onSnapshot, deleteDoc } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyCszKVe3S63aLVdamx47YX1IFKPQi47MFI",
-            authDomain: "everydaybanh.firebaseapp.com",
-            projectId: "everydaybanh",
-            storageBucket: "everydaybanh.firebasestorage.app"
-        };
-
+        const firebaseConfig = { apiKey: "AIzaSyCszKVe3S63aLVdamx47YX1IFKPQi47MFI", authDomain: "everydaybanh.firebaseapp.com", projectId: "everydaybanh", storageBucket: "everydaybanh.firebasestorage.app" };
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const currentUserId = "USER_LOGGED_IN_ID_123";
 
-        let allLimits = {};
-        let currentLimit = {}, isTestMode = true, currentFilter = 'day', allExpenses = [];
-        let modalHistory = []; // Lưu lịch sử cho nút Quay lại
-
+        let allLimits = {}, currentLimit = {}, isTestMode = true, currentFilter = 'day', allExpenses = [], modalHistory = [];
         const now = new Date();
         const monthId = `${String(now.getMonth() + 1).padStart(2, '0')}-${now.getFullYear()}`;
         const defaults = { salary: 9400000, otExpectedHours: 30, otRate: 45000, tro: 2000000, dilai: 500000, anuong: 1500000, dautu: 1000000, phatsinh: 500000, confirmed: {} };
@@ -289,56 +206,39 @@
 
         function initApp() {
             onSnapshot(query(collection(db, "limits"), where("uid", "==", currentUserId)), snap => {
-                allLimits = {};
-                snap.forEach(d => {
-                    // Thay vì split('_')[1], hãy dùng pop() để lấy phần tử cuối cùng (là 03-2026)
-                    const parts = d.id.split('_');
-                    const dateKey = parts.pop();
-                    allLimits[dateKey] = d.data();
-                });
+                allLimits = {}; snap.forEach(d => { const p = d.id.split('_'); allLimits[p.pop()] = d.data(); });
                 currentLimit = allLimits[monthId] || { ...defaults };
                 if (typeof currentLimit.confirmed !== 'object') currentLimit.confirmed = {};
-                renderSettings();
-                renderBars();
+                renderSettings(); renderBars();
             });
-
             onSnapshot(query(collection(db, "expenses"), where("uid", "==", currentUserId)), snap => {
-                allExpenses = [];
-                snap.forEach(d => allExpenses.push({ id: d.id, ...d.data() }));
-                renderTable();
-                renderBars();
+                allExpenses = []; snap.forEach(d => allExpenses.push({ id: d.id, ...d.data() }));
+                renderTable(); renderBars();
             });
         }
         initApp();
 
         window.toggleSidebar = () => {
-            document.getElementById('settings-sidebar').classList.toggle('active');
-            document.querySelector('.overlay').style.display = document.getElementById('settings-sidebar').classList.contains('active') ? 'block' : 'none';
+            const s = document.getElementById('settings-sidebar');
+            s.classList.toggle('active');
+            document.querySelector('.overlay').style.display = s.classList.contains('active') ? 'block' : 'none';
         }
-        window.logout = () => {
-            if (confirm("Bạn muốn đăng xuất và quay về màn hình chính?")) {
-                // Có thể thêm hiệu ứng mờ dần màn hình trước khi đi
-                document.body.style.opacity = "0";
-                document.body.style.transition = "0.5s";
 
-                setTimeout(() => {
-                    window.location.href = "index.html";
-                }, 500);
-            }
-        }
+        window.logout = () => { if(confirm("Đăng xuất?")) window.location.href = "index.html"; }
+
         window.confirmAndToggleMode = () => {
-            const switchEl = document.getElementById("mode-switch"), labelEl = document.getElementById("mode-label");
-            if (switchEl.checked) {
-                if (confirm("XÁC NHẬN: Chuyển sang chế độ THỰC THI. Những ô bạn tick xanh (V) sẽ bị KHÓA trong tháng này. Tiếp tục?")) {
-                    isTestMode = false; labelEl.innerText = "Chế độ: THỰC THI"; labelEl.classList.replace("text-red-500", "text-green-600"); renderSettings();
-                } else switchEl.checked = false;
+            const sw = document.getElementById("mode-switch"), lb = document.getElementById("mode-label");
+            if (sw.checked) {
+                if (confirm("Chuyển sang THỰC THI? Những ô đã tick sẽ bị khóa.")) {
+                    isTestMode = false; lb.innerText = "CHẾ ĐỘ: THỰC THI"; lb.className = "text-[8px] font-bold text-green-600 mb-1"; renderSettings();
+                } else sw.checked = false;
             } else {
-                isTestMode = true; labelEl.innerText = "Chế độ: TEST"; labelEl.classList.replace("text-green-600", "text-red-500"); renderSettings();
+                isTestMode = true; lb.innerText = "CHẾ ĐỘ: TEST"; lb.className = "text-[8px] font-bold text-red-500 mb-1"; renderSettings();
             }
         };
+
         window.toggleFieldConfirm = async (k) => {
-            if (!isTestMode && currentLimit.confirmed[k]) { alert("Đã bị khóa trong tháng!"); return; }
-            if (typeof currentLimit.confirmed !== 'object') currentLimit.confirmed = {};
+            if (!isTestMode && currentLimit.confirmed[k]) return;
             currentLimit.confirmed[k] = !currentLimit.confirmed[k];
             if (currentLimit.confirmed[k]) currentLimit[k] = window.unformatNumber(document.getElementById(`set-${k}`).value);
             await setDoc(doc(db, "limits", `${currentUserId}_${monthId}`), { ...currentLimit, uid: currentUserId });
@@ -346,372 +246,211 @@
 
         function renderSettings() {
             const keys = [
-                { k: 'salary', l: 'Lương cố định', icon: 'fa-money-bill-wave', color: 'text-green-600' }, { k: 'otExpectedHours', l: 'Dự kiến T.Ca (Giờ)', icon: 'fa-clock', color: 'text-blue-500' },
-                { k: 'otRate', l: 'Giá tăng ca / 1h', icon: 'fa-bolt', color: 'text-yellow-600' }, { k: 'tro', l: 'Trọ & Điện', icon: 'fa-home', color: 'text-red-500' },
-                { k: 'dilai', l: 'Xăng xe & Đi lại', icon: 'fa-motorcycle', color: 'text-orange-500' }, { k: 'anuong', l: 'Ăn uống', icon: 'fa-utensils', color: 'text-blue-500' },
-                { k: 'dautu', l: 'Đầu tư', icon: 'fa-chart-line', color: 'text-purple-500' }, { k: 'phatsinh', l: 'Phát sinh (Khác)', icon: 'fa-box', color: 'text-gray-600' }
+                { k: 'salary', l: 'Lương cố định', icon: 'fa-money-bill' }, { k: 'otExpectedHours', l: 'Giờ TC dự kiến', icon: 'fa-clock' },
+                { k: 'otRate', l: 'Giá TC/1h', icon: 'fa-bolt' }, { k: 'tro', l: 'Trọ & Điện', icon: 'fa-home' },
+                { k: 'dilai', l: 'Đi lại', icon: 'fa-motorcycle' }, { k: 'anuong', l: 'Ăn uống', icon: 'fa-utensils' },
+                { k: 'dautu', l: 'Đầu tư', icon: 'fa-chart-line' }, { k: 'phatsinh', l: 'Khác', icon: 'fa-box' }
             ];
             let html = "";
             keys.forEach(item => {
                 const isLocked = !isTestMode && currentLimit.confirmed[item.k];
-                let actionIcon = `<i class="fas fa-check-circle text-2xl cursor-pointer transition hover:scale-110 ${currentLimit.confirmed[item.k] ? 'text-green-500' : 'text-gray-200 hover:text-green-300'}" onclick="toggleFieldConfirm('${item.k}')"></i>`;
-                if (isLocked) actionIcon = `<i class="fas fa-lock text-xl text-red-400 cursor-not-allowed" onclick="toggleFieldConfirm('${item.k}')"></i>`;
-
                 html += `
-                <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm relative overflow-hidden">
-                    ${isLocked ? '<div class="absolute top-0 right-0 w-8 h-8 bg-red-50 text-red-500 rounded-bl-xl flex items-center justify-center text-[10px]"><i class="fas fa-lock"></i></div>' : ''}
-                    <div class="flex justify-between items-center mb-2">
-                        <label class="text-[11px] font-black uppercase text-gray-700 flex items-center gap-2"><i class="fas ${item.icon} ${item.color} w-4 text-center"></i> ${item.l}</label>
-                    </div>
-                    <div class="flex items-center gap-3 bg-gray-50 p-2 rounded-xl border ${isLocked ? 'border-red-100' : 'border-gray-200'}">
-                        <input type="text" id="set-${item.k}" value="${window.formatNumber(currentLimit[item.k])}" oninput="formatInputCurrency(this)" ${isLocked ? 'disabled' : ''} class="flex-1 font-black text-sm outline-none bg-transparent currency-input text-gray-800 px-2 w-full">
-                        ${actionIcon}
+                <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-100">
+                    <label class="text-[9px] font-black text-gray-400 uppercase flex items-center gap-2 mb-1"><i class="fas ${item.icon}"></i> ${item.l}</label>
+                    <div class="flex gap-2">
+                        <input type="text" id="set-${item.k}" value="${window.formatNumber(currentLimit[item.k])}" oninput="formatInputCurrency(this)" ${isLocked?'disabled':''} class="flex-1 bg-gray-50 p-2 rounded-lg text-xs font-bold currency-input">
+                        <button onclick="toggleFieldConfirm('${item.k}')" class="${currentLimit.confirmed[item.k]?'text-green-500':'text-gray-200'} text-xl">
+                            <i class="fas ${isLocked?'fa-lock text-red-400':'fa-check-circle'}"></i>
+                        </button>
                     </div>
                 </div>`;
             });
             document.getElementById("settings-content").innerHTML = html;
-            document.getElementById("base-salary-view").innerText = window.formatNumber(currentLimit.salary) + " VND";
-            document.getElementById("ot-rate-show").innerText = window.formatNumber(currentLimit.otRate);
+            document.getElementById("base-salary-view").innerText = window.formatNumber(currentLimit.salary) + " đ";
         }
 
         window.calcOT = () => document.getElementById("ot-calc-preview").innerText = "↑ " + window.formatNumber(Number(document.getElementById("ot-hours").value) * currentLimit.otRate);
         window.calcExp = () => document.getElementById("exp-preview").innerText = "↓ " + window.formatNumber(window.unformatNumber(document.getElementById("exp-amount").value));
 
         const saveToDb = async (data) => {
-            const dateStr = `${String(now.getDate()).padStart(2, '0')}-${String(now.getMonth() + 1).padStart(2, '0')}-${now.getFullYear()}`;
-            const docId = `${dateStr}_${data.amount}_${data.type}_${data.category}_${Date.now()}`;
-            await setDoc(doc(db, "expenses", docId), { ...data, uid: currentUserId, monthId, date: now.toISOString().split('T')[0], dateFormatted: dateStr, ts: Date.now() });
+            const dStr = `${String(now.getDate()).padStart(2,'0')}-${String(now.getMonth()+1).padStart(2,'0')}-${now.getFullYear()}`;
+            const id = `${dStr}_${Date.now()}`;
+            await setDoc(doc(db, "expenses", id), { ...data, uid: currentUserId, monthId, date: now.toISOString().split('T')[0], dateFormatted: dStr, ts: Date.now() });
         };
 
-        window.saveOT = async () => { const h = Number(document.getElementById("ot-hours").value); if (h > 0) { await saveToDb({ type: 'income', amount: h * currentLimit.otRate, note: `Tăng ca (${h}h)`, category: 'income' }); document.getElementById("ot-hours").value = ""; window.calcOT(); } };
-        window.saveOtherInc = async () => { const n = document.getElementById("inc-note").value; const a = window.unformatNumber(document.getElementById("inc-amount").value); if (n && a > 0) { await saveToDb({ type: 'income', amount: a, note: n, category: 'other_income' }); document.getElementById("inc-note").value = ""; document.getElementById("inc-amount").value = ""; } };
-        window.addExp = async () => { const n = document.getElementById("exp-note").value, a = window.unformatNumber(document.getElementById("exp-amount").value), c = document.getElementById("exp-category").value; if (n && a > 0) { await saveToDb({ type: 'expense', amount: a, note: n, category: c }); document.getElementById("exp-note").value = ""; document.getElementById("exp-amount").value = ""; window.calcExp(); } };
-        window.deleteItem = async (id) => { if (confirm("Xóa bản ghi này?")) await deleteDoc(doc(db, "expenses", id)); };
+        window.saveOT = async () => { const h = Number(document.getElementById("ot-hours").value); if(h>0){ await saveToDb({type:'income', amount:h*currentLimit.otRate, note:`TC (${h}h)`, category:'income'}); document.getElementById("ot-hours").value=""; window.calcOT();} };
+        window.saveOtherInc = async () => { const n = document.getElementById("inc-note").value, a = window.unformatNumber(document.getElementById("inc-amount").value); if(n && a>0){ await saveToDb({type:'income', amount:a, note:n, category:'other_income'}); document.getElementById("inc-note").value=""; document.getElementById("inc-amount").value=""; } };
+        window.addExp = async () => { const n = document.getElementById("exp-note").value, a = window.unformatNumber(document.getElementById("exp-amount").value), c = document.getElementById("exp-category").value; if(n && a>0){ await saveToDb({type:'expense', amount:a, note:n, category:c}); document.getElementById("exp-note").value=""; document.getElementById("exp-amount").value=""; window.calcExp();} };
+        window.deleteItem = async (id) => { if(confirm("Xóa?")) await deleteDoc(doc(db, "expenses", id)); };
 
-        // --- LỌC BẢNG CHÍNH ---
         window.setFilter = (f) => {
             currentFilter = f;
             document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
             document.getElementById(`f-${f}`).classList.add('active');
-
-            const fTitles = {
-                'day': `HÔM NAY (${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth() + 1).padStart(2, '0')})`,
-                'week': `TUẦN NÀY (W${getWeekNumber(now)})`,
-                'month': `THÁNG NÀY (T${now.getMonth() + 1}/${now.getFullYear()})`,
-                'year': `NĂM NAY (${now.getFullYear()})`,
-                'century': `THẾ KỶ (2026 - 2126)` // Đã sửa cố định
-            };
-            document.getElementById("filter-status").innerText = fTitles[f];
-
-            document.getElementById("input-container").style.display = (f === 'day') ? 'grid' : 'none';
+            document.getElementById("filter-status").innerText = f.toUpperCase();
+            document.getElementById("input-container").style.display = (f === 'day') ? 'block' : 'none';
             document.getElementById("chart-section").style.display = (f === 'day') ? 'none' : 'block';
-
-            renderTable();
-            renderBars();
+            renderTable(); renderBars();
         };
 
-        function getFilteredDataForMainView() {
-            return allExpenses.filter(d => {
+        function renderTable() {
+            const filtered = allExpenses.filter(d => {
                 const dt = new Date(d.date);
                 if (currentFilter === 'day') return d.date === now.toISOString().split('T')[0];
-                if (currentFilter === 'week') {
-                    const diffDays = Math.floor((now - dt) / 86400000);
-                    return diffDays >= 0 && diffDays < 7 && getWeekNumber(dt) === getWeekNumber(now);
-                }
+                if (currentFilter === 'week') return Math.floor((now-dt)/86400000) < 7 && getWeekNumber(dt) === getWeekNumber(now);
                 if (currentFilter === 'month') return d.monthId === monthId;
                 if (currentFilter === 'year') return dt.getFullYear() === now.getFullYear();
-                if (currentFilter === 'century') return dt.getFullYear() >= 2026 && dt.getFullYear() <= 2126;
-                return true;
+                return dt.getFullYear() >= 2026;
             });
-        }
 
-        function renderTable() {
-            const filtered = getFilteredDataForMainView();
             const thead = document.getElementById("table-head"), tbody = document.getElementById("expense-body"), tfoot = document.getElementById("table-foot");
             let sumIn = 0, sumOut = 0;
 
             if (currentFilter === 'day') {
-                thead.innerHTML = `<tr><th width="40">STT</th><th>Số Tiền</th><th>Nội dung</th><th width="40">#</th></tr>`;
-                tbody.innerHTML = filtered.sort((a, b) => b.ts - a.ts).map((d, i) => {
-                    if (d.type === 'income') sumIn += d.amount; else sumOut += d.amount;
-                    return `<tr><td>${i + 1}</td><td class="${d.type === 'income' ? 'text-green-600' : 'text-red-600'} font-black text-xs">${window.formatNumber(d.amount)}</td><td class="text-left font-bold text-gray-700 text-[11px]">${d.note}</td><td><button class="bg-red-50 w-7 h-7 rounded-full text-red-400 hover:bg-red-500 hover:text-white transition" onclick="deleteItem('${d.id}')"><i class="fas fa-times"></i></button></td></tr>`;
-                }).join('') || "<tr><td colspan='4' class='py-8 text-gray-400 italic'>Trống</td></tr>";
-                tfoot.innerHTML = `<tr><td colspan="2" class="text-green-600 bg-green-50 p-3">Thu: +${window.formatNumber(sumIn)}</td><td colspan="2" class="text-red-600 bg-red-50 p-3">Chi: -${window.formatNumber(sumOut)}</td></tr>`;
+                thead.innerHTML = `<tr><th width="40">STT</th><th>Số Tiền</th><th>Nội dung</th><th width="40">X</th></tr>`;
+                tbody.innerHTML = filtered.sort((a,b)=>b.ts-a.ts).map((d,i)=>{
+                    if(d.type==='income') sumIn+=d.amount; else sumOut+=d.amount;
+                    return `<tr><td>${i+1}</td><td class="${d.type==='income'?'text-green-600':'text-red-600'} font-bold">${window.formatNumber(d.amount)}</td><td class="text-left font-medium">${d.note}</td><td><button onclick="deleteItem('${d.id}')" class="text-red-300"><i class="fas fa-trash"></i></button></td></tr>`;
+                }).join('') || "<tr><td colspan='4' class='py-4 italic'>Không có dữ liệu</td></tr>";
+                tfoot.innerHTML = `Thu: <span class="text-green-600">+${window.formatNumber(sumIn)}</span> | Chi: <span class="text-red-600">-${window.formatNumber(sumOut)}</span>`;
             } else {
-                thead.innerHTML = `<tr><th>Thời gian</th><th>Thu (+)</th><th>Chi (-)</th><th width="50">Xem</th></tr>`;
-
+                thead.innerHTML = `<tr><th>Thời gian</th><th>Thu (+)</th><th>Chi (-)</th><th width="40">Vào</th></tr>`;
                 const groups = {};
                 filtered.forEach(curr => {
-                    let k, label, targetDisplay, contextType;
-                    const dt = new Date(curr.date);
-
-                    // Logic xác định cấp tiếp theo khi click từ Bảng chính
-                    if (currentFilter === 'century') {
-                        k = dt.getFullYear().toString(); label = `Năm ${k}`; targetDisplay = 'months'; contextType = 'year';
-                    } else if (currentFilter === 'year') {
-                        k = curr.monthId; label = `Tháng ${dt.getMonth() + 1}`; targetDisplay = 'weeks'; contextType = 'month';
-                    } else if (currentFilter === 'month') {
-                        const w = getWeekNumber(dt); k = `W${w}-${dt.getFullYear()}`; label = `Tuần ${w}`; targetDisplay = 'days'; contextType = 'week';
-                    } else if (currentFilter === 'week') {
-                        k = curr.dateFormatted; label = curr.dateFormatted.substring(0, 5); targetDisplay = 'transactions'; contextType = 'day';
-                    }
-
-                    if (!groups[k]) groups[k] = { in: 0, out: 0, label, targetDisplay, contextType };
+                    let k, label, target, context; const dt = new Date(curr.date);
+                    if (currentFilter === 'century') { k = dt.getFullYear().toString(); label = `Năm ${k}`; target = 'months'; context = 'year'; }
+                    else if (currentFilter === 'year') { k = curr.monthId; label = `Tháng ${dt.getMonth()+1}`; target = 'weeks'; context = 'month'; }
+                    else if (currentFilter === 'month') { const w = getWeekNumber(dt); k = `W${w}-${dt.getFullYear()}`; label = `Tuần ${w}`; target = 'days'; context = 'week'; }
+                    else if (currentFilter === 'week') { k = curr.dateFormatted; label = k.substring(0,5); target = 'transactions'; context = 'day'; }
+                    if (!groups[k]) groups[k] = { in: 0, out: 0, label, target, context };
                     if (curr.type === 'income') groups[k].in += curr.amount; else groups[k].out += curr.amount;
                 });
-
-                tbody.innerHTML = Object.keys(groups).sort((a, b) => a.localeCompare(b)).map(k => {
+                tbody.innerHTML = Object.keys(groups).sort().map(k => {
                     sumIn += groups[k].in; sumOut += groups[k].out;
-                    return `<tr class="table-row-hover" onclick="openModal('${groups[k].targetDisplay}', '${groups[k].contextType}', '${k}')"><td class="font-bold text-xs text-gray-700">${groups[k].label} <span class="text-[9px] text-gray-400">(${k})</span></td><td class="text-green-600 font-bold">+${window.formatNumber(groups[k].in)}</td><td class="text-red-600 font-bold">-${window.formatNumber(groups[k].out)}</td><td><i class="fas fa-eye text-teal-600 p-2 bg-teal-50 rounded-full"></i></td></tr>`;
-                }).join('') || "<tr><td colspan='4' class='py-8 text-gray-400 italic'>Trống</td></tr>";
-
-                // CÔNG THỨC: Dư kỳ này = (Lương * 0.895) + Thu - Chi (Áp dụng cho Tháng, Năm, Thế kỷ)
-                if (currentFilter === 'week') {
-                    tfoot.innerHTML = `<tr><td colspan="2" class="text-green-600 bg-green-50 p-3">Tổng Thu: +${window.formatNumber(sumIn)}</td><td colspan="2" class="text-red-600 bg-red-50 p-3">Tổng Chi: -${window.formatNumber(sumOut)}</td></tr>`;
-                } else {
-                    // Trong hàm renderTable(), phần tính totalSalary
-                    let totalSalary = 0;
-                    Object.keys(allLimits).forEach(lKey => {
-                        const lData = allLimits[lKey];
-                        const salaryVal = Number(lData.salary) || 0; // Ép kiểu số ở đây
-                        const parts = lKey.split('-'); // lKey là "03-2026"
-                        const y = Number(parts[1]);
-
-                        if (currentFilter === 'month' && lKey === monthId) totalSalary += salaryVal;
-                        else if (currentFilter === 'year' && y === now.getFullYear()) totalSalary += salaryVal;
-                        else if (currentFilter === 'century' && y >= 2026 && y <= 2126) totalSalary += salaryVal;
-                    });
-
-                    // Công thức tính số dư (Tổng Lương * 0.895) + Thu - Chi. Chính xác cho mọi cấp độ!
-                    const remain = (totalSalary * 0.895) + sumIn - sumOut;
-                    tfoot.innerHTML = `<tr><td colspan="4" class="p-3 bg-gradient-to-r from-teal-900 to-teal-700 text-white text-center rounded-xl shadow-lg border border-teal-600">Lương Tổng Hợp: ${window.formatNumber(totalSalary)} | DƯ KỲ NÀY: <span class="text-xl font-black text-yellow-300 ml-2">${window.formatNumber(remain)} VND</span></td></tr>`;
-                }
-
+                    return `<tr onclick="openModal('${groups[k].target}', '${groups[k].context}', '${k}')"><td>${groups[k].label}</td><td class="text-green-600">+${window.formatNumber(groups[k].in)}</td><td class="text-red-600">-${window.formatNumber(groups[k].out)}</td><td><i class="fas fa-eye text-teal-600"></i></td></tr>`;
+                }).join('');
+                tfoot.innerHTML = `TỔNG CỘNG THU: +${window.formatNumber(sumIn)} | CHI: -${window.formatNumber(sumOut)}`;
                 renderColumnChart(groups);
             }
         }
 
         function renderColumnChart(groups) {
-            const container = document.getElementById("chart-bars");
-            const keys = Object.keys(groups).sort((a, b) => a.localeCompare(b));
-            if (keys.length === 0) { container.innerHTML = ""; return; }
-
-            container.innerHTML = keys.map(k => {
+            const keys = Object.keys(groups).sort();
+            document.getElementById("chart-bars").innerHTML = keys.map(k => {
                 const total = groups[k].in + groups[k].out || 1;
-                const inPct = (groups[k].in / total) * 100;
-                const outPct = (groups[k].out / total) * 100;
                 return `<div class="chart-column" style="height: 100%">
-                    <div class="part-expense rounded-t-sm" style="height: ${outPct}%" title="Chi: ${window.formatNumber(groups[k].out)}"></div>
-                    <div class="part-income rounded-b-sm" style="height: ${inPct}%" title="Thu: ${window.formatNumber(groups[k].in)}"></div>
-                    <div class="chart-label">${groups[k].label.replace('Năm', 'N').replace('Tháng', 'T').replace('Tuần', 'W').replace('Ngày', '')}</div>
+                    <div class="part-expense rounded-t-sm" style="height: ${(groups[k].out/total)*100}%"></div>
+                    <div class="part-income rounded-b-sm" style="height: ${(groups[k].in/total)*100}%"></div>
+                    <div class="chart-label">${groups[k].label.replace(/\D/g,'')}</div>
                 </div>`;
             }).join('');
         }
 
         function renderBars() {
-            // 1. Tính toán ID của tháng trước
             const [m, y] = monthId.split('-').map(Number);
-            let prevM = m - 1;
-            let prevY = y;
-            if (prevM === 0) { prevM = 12; prevY -= 1; }
-            const prevMonthId = `${String(prevM).padStart(2, '0')}-${prevY}`;
+            const prevId = `${String(m===1?12:m-1).padStart(2,'0')}-${m===1?y-1:y}`;
+            const prevLimit = allLimits[prevId] || defaults;
+            const prevExp = allExpenses.filter(d => d.monthId === prevId);
+            let prevTotals = { tro:0, dilai:0, anuong:0, dautu:0, phatsinh:0, ot:0 };
+            prevExp.forEach(d => { if(d.category==='income') prevTotals.ot+=d.amount; else if(d.type==='expense') prevTotals[d.category]+=d.amount; });
 
-            // 2. Lấy hạn mức và chi tiêu thực tế của tháng trước
-            const prevLimitData = allLimits[prevMonthId] || defaults;
-            const prevExpensesData = allExpenses.filter(d => d.monthId === prevMonthId);
-
-            let prevTotals = { tro: 0, dilai: 0, anuong: 0, dautu: 0, phatsinh: 0, ot: 0 };
-            prevExpensesData.forEach(d => {
-                if (d.type === 'income' && d.category === 'income') prevTotals.ot += d.amount;
-                if (d.type === 'expense') prevTotals[d.category] += d.amount;
-            });
-
-            // 3. Tính toán hạn mức gộp cho kỳ hiện tại (theo bộ lọc)
-            let aggLimit = { tro: 0, dilai: 0, anuong: 0, dautu: 0, phatsinh: 0, otExpectedHours: 0, otRate: currentLimit.otRate || 45000 };
-            if (currentFilter === 'day' || currentFilter === 'week' || currentFilter === 'month') {
-                ['tro', 'dilai', 'anuong', 'dautu', 'phatsinh', 'otExpectedHours'].forEach(k => { aggLimit[k] = currentLimit[k] || defaults[k]; });
+            let curAgg = { tro:0, dilai:0, anuong:0, dautu:0, phatsinh:0, otH:0, otR: currentLimit.otRate };
+            if (['day','week','month'].includes(currentFilter)) {
+                ['tro','dilai','anuong','dautu','phatsinh','otExpectedHours'].forEach(k => curAgg[k==='otExpectedHours'?'otH':k] = currentLimit[k]);
             } else {
                 Object.keys(allLimits).forEach(lKey => {
-                    const lData = allLimits[lKey];
                     const yr = Number(lKey.split('-')[1]);
-                    let shouldAdd = false;
-                    if (currentFilter === 'year' && yr === now.getFullYear()) shouldAdd = true;
-                    if (currentFilter === 'century' && yr >= 2026 && yr <= 2126) shouldAdd = true;
-                    if (shouldAdd) {
-                        ['tro', 'dilai', 'anuong', 'dautu', 'phatsinh'].forEach(cat => { aggLimit[cat] += (lData[cat] || 0); });
-                        aggLimit.otExpectedHours += (lData.otExpectedHours || 0);
+                    if ((currentFilter==='year' && yr===now.getFullYear()) || currentFilter==='century') {
+                        ['tro','dilai','anuong','dautu','phatsinh'].forEach(cat => curAgg[cat] += allLimits[lKey][cat]);
+                        curAgg.otH += allLimits[lKey].otExpectedHours;
                     }
                 });
             }
 
-            // 4. Lấy chi tiêu thực tế của kỳ hiện tại
-            const filteredExpenses = getFilteredDataForMainView();
-            let totals = { tro: 0, dilai: 0, anuong: 0, dautu: 0, phatsinh: 0, ot: 0 };
-            filteredExpenses.forEach(d => {
-                if (d.type === 'income' && d.category === 'income') totals.ot += d.amount;
-                if (d.type === 'expense') totals[d.category] += d.amount;
+            const currentFiltered = allExpenses.filter(d => {
+                const dt = new Date(d.date);
+                if (currentFilter === 'day') return d.date === now.toISOString().split('T')[0];
+                if (currentFilter === 'week') return Math.floor((now-dt)/86400000) < 7;
+                if (currentFilter === 'month') return d.monthId === monthId;
+                if (currentFilter === 'year') return dt.getFullYear() === now.getFullYear();
+                return true;
             });
 
-            // 5. Render KPI TĂNG CA (So sánh với tháng trước)
-            const maxOt = (aggLimit.otExpectedHours || 1) * aggLimit.otRate;
-            const otPct = Math.min((totals.ot / maxOt) * 100, 100);
+            let totals = { tro:0, dilai:0, anuong:0, dautu:0, phatsinh:0, ot:0 };
+            currentFiltered.forEach(d => { if(d.category==='income') totals.ot+=d.amount; else if(d.type==='expense') totals[d.category]+=d.amount; });
 
-            const prevMaxOt = (prevLimitData.otExpectedHours || 1) * (prevLimitData.otRate || 45000);
-            const prevOtPct = Math.min((prevTotals.ot / prevMaxOt) * 100, 100);
-
-            const titles = { 'day': 'Hôm nay', 'week': 'Tuần này', 'month': 'Tháng này', 'year': 'Tổng Năm nay', 'century': 'Tổng Thế kỷ' };
-            document.getElementById("bars-title").innerText = `Tiến độ chi tiêu / Hạn mức (${titles[currentFilter]})`;
-
-            let html = `
-                <div class="relative mb-8 bg-green-50/50 p-4 rounded-2xl border border-green-100">
-                    <div class="flex justify-between items-end mb-2">
-                        <div>
-                            <span class="font-black text-[12px] text-green-800 uppercase"><i class="fas fa-bolt mr-1 text-yellow-500"></i> KPI TĂNG CA</span>
-                        </div>
-                        <div class="text-right">
-                            <span class="text-green-600 font-black text-sm">+ ${window.formatNumber(totals.ot)}</span> 
-                            <span class="text-gray-400 text-xs font-bold">/ ${window.formatNumber(maxOt)} MAX</span>
-                        </div>
-                    </div>
-                    <div class="bar-3d-track overflow-hidden">
-                        <div class="bar-prev-fill" style="width: ${prevOtPct}%" title="Tháng trước: ${Math.round(prevOtPct)}%"></div>
-                        <div class="bar-3d-fill" style="width: ${otPct}%; background: linear-gradient(90deg, #10b981, #34d399);">${totals.ot > 0 ? Math.round(otPct) + '%' : ''}</div>
-                    </div>
-                </div>
-                <div class="h-px bg-gray-200 mb-8 w-full"></div>
-            `;
-
-            // 6. Render các hạng mục chi tiêu (So sánh mờ với tháng trước)
             const cats = [
-                { k: 'tro', l: '🏠 Trọ & Điện', c: 'linear-gradient(90deg, #ef4444, #f87171)' },
-                { k: 'dilai', l: '🛵 Xăng xe', c: 'linear-gradient(90deg, #f59e0b, #fbbf24)' },
-                { k: 'anuong', l: '🍔 Ăn uống', c: 'linear-gradient(90deg, #3b82f6, #60a5fa)' },
-                { k: 'dautu', l: '📈 Đầu tư', c: 'linear-gradient(90deg, #8b5cf6, #a78bfa)' },
-                { k: 'phatsinh', l: '📦 Khác', c: 'linear-gradient(90deg, #64748b, #94a3b8)' }
+                { k:'ot', l:'⚡ KPI Tăng ca', max: curAgg.otH * curAgg.otR, color:'linear-gradient(90deg, #10b981, #34d399)' },
+                { k:'tro', l:'🏠 Trọ & Điện', max: curAgg.tro, color:'linear-gradient(90deg, #ef4444, #f87171)' },
+                { k:'dilai', l:'🛵 Đi lại', max: curAgg.dilai, color:'linear-gradient(90deg, #f59e0b, #fbbf24)' },
+                { k:'anuong', l:'🍔 Ăn uống', max: curAgg.anuong, color:'linear-gradient(90deg, #3b82f6, #60a5fa)' },
+                { k:'dautu', l:'📈 Đầu tư', max: curAgg.dautu, color:'linear-gradient(90deg, #8b5cf6, #a78bfa)' },
+                { k:'phatsinh', l:'📦 Khác', max: curAgg.phatsinh, color:'linear-gradient(90deg, #64748b, #94a3b8)' }
             ];
 
-            cats.forEach(c => {
-                const limit = aggLimit[c.k] || 1;
-                const spent = totals[c.k];
-                const pct = Math.min((spent / limit) * 100, 100);
-
-                // Tính % tháng trước
-                const prevLimit = prevLimitData[c.k] || 1;
-                const prevSpent = prevTotals[c.k];
-                const prevPct = Math.min((prevSpent / prevLimit) * 100, 100);
-
-                html += `
-                <div class="relative group">
-                    <div class="flex justify-between font-black text-[11px] text-teal-900 mb-2 items-end">
-                        <span class="uppercase tracking-wide">${c.l}</span>
-                        <div>
-                            <span class="text-red-500 text-sm font-black drop-shadow-sm">${window.formatNumber(spent)}</span> 
-                            <span class="text-gray-400 mx-1">/</span> 
-                            <span class="text-gray-500 font-bold">${window.formatNumber(limit)}</span>
-                        </div>
+            document.getElementById("dynamic-bars").innerHTML = cats.map(c => {
+                const pct = Math.min((totals[c.k]/ (c.max || 1))*100, 100);
+                return `<div>
+                    <div class="flex justify-between text-[9px] font-bold mb-1 uppercase text-teal-900">
+                        <span>${c.l}</span>
+                        <span>${window.formatNumber(totals[c.k])} / ${window.formatNumber(c.max)}</span>
                     </div>
-                    <div class="bar-3d-track overflow-hidden bg-gray-100">
-                        <div class="bar-prev-fill" style="width: ${prevPct}%" title="Tháng trước: ${Math.round(prevPct)}%"></div>
-                        <div class="bar-3d-fill transition-all duration-1000 shadow-sm" style="width: ${pct}%; background: ${c.c}">
-                            ${spent > 0 ? Math.round(pct) + '%' : ''}
-                        </div>
+                    <div class="bar-3d-track">
+                        <div class="bar-3d-fill" style="width: ${pct}%; background: ${c.color}">${totals[c.k]>0?Math.round(pct)+'%':''}</div>
                     </div>
                 </div>`;
-            });
-            document.getElementById("dynamic-bars").innerHTML = html;
+            }).join('');
         }
 
-        // --- CATALOG MODAL: KHOAN SÂU LIÊN HOÀN (TỪNG BƯỚC 1) ---
-        // targetDisplay: Thứ ta muốn vẽ ra màn hình (years, months, weeks, days, transactions)
-        // contextType: Ta đang lọc dựa trên cái gì? (century, year, month, week, day)
-        // contextValue: Giá trị của context đó (vd: 2026, 03-2026, W12-2026...)
-        window.openModal = (targetDisplay, contextType, contextValue, isBack = false) => {
-            const modal = document.getElementById("catalog-modal");
-            const backBtn = document.getElementById("modal-back-btn");
+        window.openModal = (target, context, val, isBack=false) => {
+            const m = document.getElementById("catalog-modal");
+            if (!isBack && m.style.display==='flex') modalHistory.push(JSON.parse(m.getAttribute("data-state")));
+            m.setAttribute("data-state", JSON.stringify({target, context, val}));
+            m.style.display = 'flex';
+            document.getElementById("modal-title").innerText = val;
+            document.getElementById("modal-back-btn").style.display = modalHistory.length > 0 ? 'block' : 'none';
 
-            // Lưu trạng thái trước khi mở cái mới để nút Back hoạt động đúng
-            if (!isBack && modal.classList.contains("active")) {
-                const curState = modal.getAttribute("data-state");
-                if (curState) modalHistory.push(JSON.parse(curState));
-            }
-
-            // Lưu trạng thái hiện tại vào thẻ HTML để dễ bốc ra khi bấm cấp tiếp theo
-            modal.setAttribute("data-state", JSON.stringify({ targetDisplay, contextType, contextValue }));
-            document.getElementById("modal-title").innerText = `CHI TIẾT: ${contextValue} (HIỂN THỊ CẤP: ${targetDisplay.toUpperCase()})`;
-
-            if (modalHistory.length > 0) backBtn.classList.remove("hidden");
-            else backBtn.classList.add("hidden");
-
-            // Lọc Data thuộc về Context
-            let subData = allExpenses.filter(d => {
+            const sub = allExpenses.filter(d => {
                 const dt = new Date(d.date);
-                if (contextType === 'century') return Math.floor(dt.getFullYear() / 100) * 100 === Number(contextValue.split(' ')[0]); // Trick nếu truyền "2000 - 2099"
-                if (contextType === 'year') return dt.getFullYear().toString() === contextValue;
-                if (contextType === 'month') return d.monthId === contextValue;
-                if (contextType === 'week') return `W${getWeekNumber(dt)}-${dt.getFullYear()}` === contextValue;
-                if (contextType === 'day') return d.dateFormatted === contextValue;
+                if (context === 'year') return dt.getFullYear().toString() === val;
+                if (context === 'month') return d.monthId === val;
+                if (context === 'week') return `W${getWeekNumber(dt)}-${dt.getFullYear()}` === val;
+                if (context === 'day') return d.dateFormatted === val;
                 return false;
             });
 
             const thead = document.getElementById("modal-thead"), tbody = document.getElementById("modal-tbody"), tfoot = document.getElementById("modal-tfoot");
-            let sumIn = 0, sumOut = 0;
+            let sIn = 0, sOut = 0;
 
-            // NẾU LÀ CẤP CUỐI CÙNG (HÓA ĐƠN)
-            if (targetDisplay === 'transactions' || subData.length === 0) {
-                thead.innerHTML = `<tr><th width="30">STT</th><th>Loại</th><th>Số Tiền</th><th>Ghi chú</th></tr>`;
-                tbody.innerHTML = subData.sort((a, b) => b.ts - a.ts).map((d, i) => {
-                    if (d.type === 'income') sumIn += d.amount; else sumOut += d.amount;
-                    return `<tr><td>${i + 1}</td><td class="text-[9px] font-bold text-gray-500 uppercase">${d.category.replace('income', 'T.Ca')}</td><td class="${d.type === 'income' ? 'text-green-600' : 'text-red-600'} font-black text-xs">${window.formatNumber(d.amount)}</td><td class="text-left font-bold text-gray-700 text-[10px]">${d.note}</td></tr>`;
-                }).join('') || "<tr><td colspan='4' class='py-4 italic text-center text-gray-400'>Không có giao dịch</td></tr>";
-                tfoot.innerHTML = `<tr><td colspan="2" class="text-green-600 p-2 text-center">Thu: +${window.formatNumber(sumIn)}</td><td colspan="2" class="text-red-600 p-2 text-center">Chi: -${window.formatNumber(sumOut)}</td></tr>`;
-            }
-            // NẾU LÀ CÁC CẤP TRUNG GIAN (HIỂN THỊ NĂM, THÁNG, TUẦN, NGÀY)
-            else {
-                thead.innerHTML = `<tr><th>Thời gian</th><th>Thu (+)</th><th>Chi (-)</th><th width="40">Vào</th></tr>`;
-                const groups = {};
-
-                subData.forEach(curr => {
-                    let k, label, nextTarget, nextContext;
-                    const dt = new Date(curr.date);
-
-                    if (targetDisplay === 'years') {
-                        k = dt.getFullYear().toString(); label = `Năm ${k}`; nextTarget = 'months'; nextContext = 'year';
-                    } else if (targetDisplay === 'months') {
-                        k = curr.monthId; label = `Tháng ${dt.getMonth() + 1}/${dt.getFullYear()}`; nextTarget = 'weeks'; nextContext = 'month';
-                    } else if (targetDisplay === 'weeks') {
-                        const w = getWeekNumber(dt); k = `W${w}-${dt.getFullYear()}`; label = `Tuần ${w}`; nextTarget = 'days'; nextContext = 'week';
-                    } else if (targetDisplay === 'days') {
-                        k = curr.dateFormatted; label = `Ngày ${k.substring(0, 5)}`; nextTarget = 'transactions'; nextContext = 'day';
-                    }
-
-                    if (!groups[k]) groups[k] = { in: 0, out: 0, label, nextTarget, nextContext };
-                    if (curr.type === 'income') groups[k].in += curr.amount; else groups[k].out += curr.amount;
-                });
-
-                tbody.innerHTML = Object.keys(groups).sort((a, b) => a.localeCompare(b)).map(k => {
-                    sumIn += groups[k].in; sumOut += groups[k].out;
-                    return `<tr class="table-row-hover bg-white" onclick="openModal('${groups[k].nextTarget}', '${groups[k].nextContext}', '${k}')"><td class="font-bold text-xs text-teal-800">${groups[k].label} <span class="text-[9px] text-gray-400">(${k})</span></td><td class="text-green-600 font-bold">+${window.formatNumber(groups[k].in)}</td><td class="text-red-600 font-bold">-${window.formatNumber(groups[k].out)}</td><td><i class="fas fa-search-plus text-indigo-500"></i></td></tr>`;
+            if (target === 'transactions') {
+                thead.innerHTML = `<tr><th>Loại</th><th>Số Tiền</th><th>Ghi chú</th></tr>`;
+                tbody.innerHTML = sub.sort((a,b)=>b.ts-a.ts).map(d => {
+                    if(d.type==='income') sIn+=d.amount; else sOut+=d.amount;
+                    return `<tr><td class="text-[9px] uppercase">${d.category}</td><td class="${d.type==='income'?'text-green-600':'text-red-600'} font-bold">${window.formatNumber(d.amount)}</td><td class="text-left text-[10px]">${d.note}</td></tr>`;
                 }).join('');
-                tfoot.innerHTML = `<tr><td class="text-center font-bold p-2">TỔNG CỘNG</td><td class="text-green-600 text-center">+${window.formatNumber(sumIn)}</td><td class="text-red-600 text-center">-${window.formatNumber(sumOut)}</td><td></td></tr>`;
+                tfoot.innerHTML = `Thu: +${window.formatNumber(sIn)} | Chi: -${window.formatNumber(sOut)}`;
+            } else {
+                thead.innerHTML = `<tr><th>Thời gian</th><th>Thu (+)</th><th>Chi (-)</th><th>></th></tr>`;
+                const g = {};
+                sub.forEach(curr => {
+                    let k, label, nextT, nextC; const dt = new Date(curr.date);
+                    if (target === 'months') { k = curr.monthId; label = `Tháng ${dt.getMonth()+1}`; nextT = 'weeks'; nextC = 'month'; }
+                    else if (target === 'weeks') { const w = getWeekNumber(dt); k = `W${w}-${dt.getFullYear()}`; label = `T. ${w}`; nextT = 'days'; nextC = 'week'; }
+                    else if (target === 'days') { k = curr.dateFormatted; label = k.substring(0,5); nextT = 'transactions'; nextC = 'day'; }
+                    if (!g[k]) g[k] = { in: 0, out: 0, label, nextT, nextC };
+                    if (curr.type === 'income') g[k].in += curr.amount; else g[k].out += curr.amount;
+                });
+                tbody.innerHTML = Object.keys(g).sort().map(k => {
+                    sIn += g[k].in; sOut += g[k].out;
+                    return `<tr onclick="openModal('${g[k].nextT}', '${g[k].nextC}', '${k}')"><td>${g[k].label}</td><td class="text-green-600">+${window.formatNumber(g[k].in)}</td><td class="text-red-600">-${window.formatNumber(g[k].out)}</td><td><i class="fas fa-chevron-right"></i></td></tr>`;
+                }).join('');
+                tfoot.innerHTML = `Tổng Thu: +${window.formatNumber(sIn)} | Tổng Chi: -${window.formatNumber(sOut)}`;
             }
-            modal.classList.add("active");
         };
 
-        window.goBackModal = () => {
-            if (modalHistory.length > 0) {
-                const prevState = modalHistory.pop();
-                openModal(prevState.targetDisplay, prevState.contextType, prevState.contextValue, true);
-            }
-        };
-
-        window.closeModal = () => {
-            document.getElementById("catalog-modal").classList.remove("active");
-            document.getElementById("catalog-modal").removeAttribute("data-state");
-            modalHistory = []; // Xóa trắng lịch sử
-        };
+        window.goBackModal = () => { if(modalHistory.length > 0){ const p = modalHistory.pop(); openModal(p.target, p.context, p.val, true); } };
+        window.closeModal = () => { document.getElementById("catalog-modal").style.display='none'; modalHistory=[]; };
 
     </script>
-
 </body>
-
 </html>
