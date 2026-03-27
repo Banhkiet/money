@@ -4,80 +4,242 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Hệ thống Tài chính Pro Max - Mobile Optimized</title>
+    <title>Hệ thống Tài chính Pro Max - Mobile Fixed</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --teal-3d: #1a535c; --bg-sidebar: #fff7ed; }
-        body { background: #cbd5e1; font-family: 'Segoe UI', sans-serif; padding: 10px; margin: 0; }
+        :root {
+            --teal-3d: #1a535c;
+            --bg-sidebar: #fff7ed;
+        }
 
-        /* Tối ưu Glass Card cho Mobile */
-        .glass-card { background: white; border-radius: 20px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); overflow: hidden; }
-
-        /* Bảng cuộn ngang mượt */
-        .table-responsive { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 12px; }
-        .main-table { min-width: 450px; width: 100%; border-collapse: collapse; }
-        .main-table th { background: linear-gradient(180deg, #2c7a7b 0%, #1a535c 100%); color: white; padding: 12px 8px; font-size: 11px; white-space: nowrap; }
-        .main-table td { border: 1px solid #e2e8f0; padding: 10px 6px; text-align: center; font-size: 12px; }
-
-        /* Thanh tiến độ 3D */
-        .bar-3d-track { height: 26px; background: #f1f5f9; border-radius: 50px; position: relative; margin: 15px 0; border: 1px solid #e2e8f0; overflow: hidden; }
-        .bar-prev-fill { height: 100%; background: #fb923c; opacity: 0.3; position: absolute; z-index: 1; }
-        .bar-3d-fill { height: 100%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 900; position: absolute; font-size: 10px; z-index: 5; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); transition: 1s cubic-bezier(0.4, 0, 0.2, 1); }
-
-        /* Sidebar rộng 90% trên mobile */
-        #settings-sidebar { position: fixed; top: 0; left: -100%; width: 90%; max-width: 400px; height: 100%; background: var(--bg-sidebar); z-index: 1000; transition: 0.4s; padding: 20px; box-shadow: 15px 0 40px rgba(0, 0, 0, 0.2); overflow-y: auto; }
-        #settings-sidebar.active { left: 0; }
-        .overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.6); display: none; z-index: 900; backdrop-filter: blur(4px); }
-
-        /* Chart cuộn ngang */
-        .column-chart-container { display: flex; align-items: flex-end; gap: 10px; height: 150px; padding: 10px; border-bottom: 2px solid #1a535c; overflow-x: auto; scrollbar-width: none; }
-        .chart-column { width: 35px; flex: none; display: flex; flex-direction: column; justify-content: flex-end; position: relative; }
-        .part-expense { background: linear-gradient(180deg, #f87171, #dc2626); width: 100%; }
-        .part-income { background: linear-gradient(180deg, #4ade80, #16a34a); width: 100%; }
-        .chart-label { font-size: 10px; text-align: center; font-weight: bold; margin-top: 5px; color: #334155; }
-
-        /* Nút lọc vuốt ngang */
-        .filter-scroll { display: flex; overflow-x: auto; gap: 8px; padding-bottom: 5px; -ms-overflow-style: none; scrollbar-width: none; }
-        .filter-scroll::-webkit-scrollbar { display: none; }
-        .filter-btn { flex: 0 0 auto; padding: 8px 15px; border-radius: 12px; font-weight: 800; background: white; border: 2px solid #1a535c; color: #1a535c; font-size: 11px; }
-        .filter-btn.active { background: #1a535c; color: white; transform: scale(1.05); }
-
-        /* Tối ưu Switch & Input */
-        .switch { position: relative; display: inline-block; width: 44px; height: 22px; }
-        .switch input { opacity: 0; width: 0; height: 0; }
-        .slider { position: absolute; cursor: pointer; inset: 0; background-color: #ef4444; border-radius: 22px; transition: .4s; }
-        .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px; background-color: white; border-radius: 50%; transition: .4s; }
-        input:checked+.slider { background-color: #10b981; }
-        input:checked+.slider:before { transform: translateX(22px); }
         
-        .currency-input { font-family: 'Courier New', monospace; font-weight: bold; }
+
+        
+
+        .main-table {
+            width: 100%;
+            table-layout: fixed;
+            border-collapse: collapse;
+        }
+
+        .main-table th {
+            background: linear-gradient(180deg, #2c7a7b 0%, #1a535c 100%);
+            color: white;
+            padding: 10px 2px;
+            border: 1px solid #4a7c85;
+            font-size: 10px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .main-table td {
+            border: 1px solid #e2e8f0;
+            padding: 8px 2px;
+            text-align: center;
+            font-size: 10px;
+            word-wrap: break-word;
+            overflow: hidden;
+        }
+
+        .bar-3d-track {
+            height: 28px;
+            background: #f8fafc;
+            border-radius: 12px;
+            position: relative;
+            margin: 15px 0;
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+        }
+
+        .bar-prev-fill {
+            height: 100%;
+            background: #fb923c;
+            opacity: 0.35;
+            position: absolute;
+            z-index: 1;
+        }
+
+        .bar-3d-fill {
+            height: 100%;
+            border-radius: 10px;
+            transition: 1s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 900;
+            position: absolute;
+            font-size: 10px;
+            z-index: 5;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        #settings-sidebar {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 85%;
+            max-width: 400px;
+            height: 100%;
+            background: var(--bg-sidebar);
+            z-index: 1000;
+            transition: 0.4s;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        #settings-sidebar.active {
+            left: 0;
+        }
+
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 900;
+            backdrop-filter: blur(3px);
+        }
+
+        .column-chart-container {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 4px;
+            height: 130px;
+            padding: 5px;
+            border-bottom: 2px solid #1a535c;
+            margin-bottom: 20px;
+        }
+
+        .chart-column {
+            width: 100%;
+            max-width: 32px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .part-expense {
+            background: linear-gradient(180deg, #f87171, #dc2626);
+            width: 100%;
+        }
+
+        .part-income {
+    background: linear-gradient(180deg, #22c55e, #15803d);
+            width: 100%;
+        }
+
+        .chart-label {
+            font-size: 8px;
+            text-align: center;
+            font-weight: 900;
+            margin-top: 5px;
+            color: #1e293b;
+            white-space: nowrap;
+        }
+
+        .filter-btn {
+            padding: 6px 10px;
+            border-radius: 10px;
+            font-weight: 800;
+            background: white;
+            border: 2px solid #1a535c;
+            color: #1a535c;
+            font-size: 10px;
+        }
+
+        body {
+    /* Nền sạch hơn, sử dụng mesh gradient để tạo cảm giác không gian */
+    background: 
+        radial-gradient(at 0% 0%, rgba(20, 184, 166, 0.05) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, rgba(59, 130, 246, 0.05) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(20, 184, 166, 0.05) 0px, transparent 50%),
+        radial-gradient(at 0% 100%, rgba(59, 130, 246, 0.05) 0px, transparent 50%),
+        #f8fafc; /* Màu nền chính cực nhạt giúp card nổi bật */
+    background-attachment: fixed;
+    min-height: 100vh;
+    margin: 0;
+    font-family: 'Inter', system-ui, sans-serif;
+}
+
+.glass-card {
+    background: rgba(255, 255, 255, 0.7); /* Trong suốt hơn */
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.8); /* Viền mảnh như gương */
+    box-shadow: 
+        0 4px 6px -1px rgba(0, 0, 0, 0.02),
+        0 20px 25px -5px rgba(15, 23, 42, 0.05); /* Đổ bóng nhẹ nhưng sâu */
+    backdrop-filter: blur(20px); /* Tăng độ nhòe tạo cảm giác cao cấp */
+    -webkit-backdrop-filter: blur(20px);
+    padding: 2rem;
+}
+
+.filter-btn {
+    padding: 10px 24px;
+    border-radius: 12px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: transparent;
+    color: #64748b;
+}
+
+.filter-btn.active {
+    background: #134e4a; /* Màu Teal đậm chất Apple */
+    color: #ffffff;
+    box-shadow: 0 10px 15px -3px rgba(19, 78, 74, 0.3);
+    transform: translateY(-2px); /* Nhấc nhẹ nút lên */
+}
+
+/* Hiệu ứng hover cho nút chưa active */
+.filter-btn:not(.active):hover {
+    background: rgba(19, 78, 74, 0.05);
+    color: #134e4a;
+}
+
+        .currency-input {
+            font-family: 'Courier New', monospace;
+        }
+
+        #catalog-modal {
+            display: none;
+        }
+
+        #catalog-modal.active {
+            display: flex;
+        }
     </style>
 </head>
 
 <body>
 
-    <div id="main-app" class="max-w-4xl mx-auto">
-        <!-- HEADER -->
-        <div class="grid grid-cols-4 gap-2 mb-4">
-            <button onclick="toggleSidebar()" class="col-span-1 bg-white p-3 rounded-2xl shadow-md text-teal-900 flex flex-col items-center justify-center">
-                <i class="fas fa-cog text-xl"></i>
-                <span class="text-[8px] font-bold uppercase mt-1">Cấu hình</span>
-            </button>
-            <div class="col-span-3 bg-gradient-to-r from-teal-900 to-teal-700 text-white p-3 rounded-2xl shadow-lg flex justify-between items-center">
-                <div>
-                    <p class="text-[9px] opacity-80 font-bold uppercase">Lương Cơ Bản</p>
-                    <p class="text-xl font-black" id="base-salary-view">0</p>
+    <div id="main-app" class="max-w-6xl mx-auto">
+        <div class="flex items-center gap-2 mb-4">
+            <button onclick="toggleSidebar()" class="bg-white p-3 rounded-2xl shadow-lg text-teal-900"><i
+                    class="fas fa-sliders-h text-lg"></i></button>
+            <div
+                class="flex-1 bg-gradient-to-r from-teal-950 to-teal-700 text-white p-3 rounded-2xl shadow-xl flex justify-between items-center overflow-hidden">
+                <div class="truncate">
+                    <p class="text-[8px] opacity-70 font-bold uppercase">Lương Cơ Bản</p>
+                    <p class="text-xl font-black" id="base-salary-view">0 VND</p>
                 </div>
                 <div class="text-right">
-                    <p class="text-[9px] opacity-80 font-bold uppercase" id="filter-status">HÔM NAY</p>
-                    <button onclick="logout()" class="text-red-400 text-lg mt-1"><i class="fas fa-power-off"></i></button>
+                    <p class="text-[8px] opacity-70 font-bold uppercase" id="filter-status">HÔM NAY</p>
+                    <button onclick="logout()" class="text-red-400 ml-2"><i
+                            class="fas fa-power-off text-lg"></i></button>
                 </div>
             </div>
         </div>
 
-        <!-- BỘ LỌC -->
-        <div class="filter-scroll mb-4">
+        <div class="flex flex-wrap gap-1 mb-4 justify-center">
             <button onclick="setFilter('day')" id="f-day" class="filter-btn active">Hôm nay</button>
             <button onclick="setFilter('week')" id="f-week" class="filter-btn">Tuần</button>
             <button onclick="setFilter('month')" id="f-month" class="filter-btn">Tháng</button>
@@ -85,97 +247,115 @@
             <button onclick="setFilter('century')" id="f-century" class="filter-btn">Thế kỷ</button>
         </div>
 
-        <!-- CHART -->
-        <div id="chart-section" class="hidden bg-white p-4 rounded-3xl shadow-md mb-4 overflow-hidden">
-            <h4 class="text-[10px] font-black text-teal-900 uppercase mb-3 text-center">Phân bổ Thu (Xanh) - Chi (Đỏ)</h4>
+        <div id="chart-section" class="hidden bg-white p-4 rounded-3xl shadow-lg mb-4">
+            <h4 class="text-[10px] font-black text-teal-900 uppercase mb-3 text-center">Phân bổ Thu - Chi %</h4>
             <div class="column-chart-container" id="chart-bars"></div>
         </div>
 
-        <!-- BẢNG DỮ LIỆU -->
-        <div class="glass-card mb-4">
-            <div class="table-responsive">
+        <div class="glass-card mb-6">
+            <div class="max-h-[300px] overflow-y-auto overflow-x-hidden">
                 <table class="main-table">
-                    <thead id="table-head"></thead>
+                    <thead class="sticky top-0 z-20" id="table-head"></thead>
                     <tbody id="expense-body"></tbody>
                 </table>
             </div>
-            <div id="table-foot" class="p-3 bg-slate-50 font-black text-xs text-center border-t"></div>
+            <div id="table-foot" class="bg-slate-50 font-black p-3 text-center border-t border-gray-200 text-[10px]">
+            </div>
 
-            <!-- NHẬP LIỆU (CHỈ HIỆN KHI LỌC NGÀY) -->
-            <div id="input-container" class="p-3 border-t-4 border-teal-950 space-y-3 bg-gray-50">
-                <!-- THU -->
-                <div class="p-3 bg-green-50 rounded-xl border border-green-200">
-                    <div class="flex justify-between items-center mb-2">
-                        <span class="text-[10px] font-bold text-green-800 uppercase">Thu nhập (+)</span>
-                        <span id="ot-calc-preview" class="text-[10px] font-black text-green-600">↑ 0</span>
+            <div id="input-container" class="grid grid-cols-1 gap-3 p-3 border-t-2 border-teal-950 bg-gray-50">
+                <div class="p-3 bg-white rounded-xl border border-green-200">
+                    <div class="flex justify-between items-end mb-2">
+                        <span class="font-black text-green-800 text-[9px] uppercase">Thu Nhập (+)</span>
+                        <span id="ot-calc-preview" class="text-[10px] font-black text-green-700">↑ 0</span>
                     </div>
-                    <div class="grid grid-cols-2 gap-2 mb-2">
-                        <input type="number" id="ot-hours" placeholder="Giờ TC" class="p-2 border rounded-lg text-sm font-bold" oninput="calcOT()">
-                        <button onclick="saveOT()" class="bg-green-600 text-white font-bold rounded-lg text-[10px]">LƯU TĂNG CA</button>
+                    <div class="flex gap-2 mb-2">
+                        <input type="number" id="ot-hours" class="flex-1 p-2 border rounded-lg font-bold text-xs"
+                            oninput="calcOT()" placeholder="Giờ TC: xxx VND /h ">
+                        <button onclick="saveOT()"
+                            class="bg-green-600 text-white px-3 py-2 rounded-lg text-[9px] font-black uppercase">Lưu
+                            TC</button>
                     </div>
                     <div class="flex gap-2">
-                        <input type="text" id="inc-note" placeholder="Nội dung khác..." class="flex-1 p-2 border rounded-lg text-xs">
-                        <input type="text" id="inc-amount" placeholder="Tiền" class="w-24 p-2 border rounded-lg text-xs font-bold currency-input" oninput="formatInputCurrency(this)">
-                        <button onclick="saveOtherInc()" class="bg-teal-700 text-white p-2 rounded-lg text-[10px] font-bold">LƯU</button>
+                        <input type="text" id="inc-note" placeholder="Nguồn khác..."
+                            class="flex-1 p-2 border rounded-lg text-[10px]">
+                        <input type="text" id="inc-amount" placeholder="Tiền"
+                            class="w-24 p-2 border rounded-lg text-[10px] font-bold currency-input"
+                            oninput="formatInputCurrency(this)">
+                        <button onclick="saveOtherInc()"
+                            class="bg-green-700 text-white px-3 py-2 rounded-lg text-[9px] font-black uppercase">Lưu</button>
                     </div>
                 </div>
-                <!-- CHI -->
-                <div class="p-3 bg-red-50 rounded-xl border border-red-200">
-                    <div class="flex justify-between items-center mb-2">
-                        <span class="text-[10px] font-bold text-red-800 uppercase">Chi tiêu (-)</span>
-                        <span id="exp-preview" class="text-[10px] font-black text-red-600">↓ 0</span>
-                    </div>
-                    <input type="text" id="exp-note" placeholder="Đã mua gì?" class="w-full p-2 border rounded-lg text-xs mb-2">
+                <div class="p-3 bg-white rounded-xl border border-red-200">
+                    <span class="font-black text-red-800 text-[9px] uppercase block mb-2">Chi Tiêu (-)</span>
+                    <input type="text" id="exp-note" placeholder="Bạn đã mua gì?..."
+                        class="w-full p-2 border rounded-lg text-[10px] mb-2">
                     <div class="flex gap-2">
-                        <select id="exp-category" class="flex-1 p-2 border rounded-lg text-xs font-bold bg-white">
+                        <select id="exp-category" class="flex-1 p-2 border rounded-lg text-[10px] font-bold bg-white">
                             <option value="tro">🏠 Trọ</option>
                             <option value="dilai">🛵 Đi lại</option>
                             <option value="anuong">🍔 Ăn uống</option>
                             <option value="dautu">📈 Đầu tư</option>
                             <option value="phatsinh" selected>📦 Khác</option>
                         </select>
-                        <input type="text" id="exp-amount" placeholder="Số tiền" class="w-28 p-2 border rounded-lg text-xs font-bold currency-input" oninput="formatInputCurrency(this); calcExp()">
-                        <button onclick="addExp()" class="bg-red-600 text-white px-3 rounded-lg text-[10px] font-bold">CHI</button>
+                        <input type="text" id="exp-amount" placeholder="Tiền"
+                            class="w-24 p-2 border rounded-lg text-[10px] font-bold currency-input"
+                            oninput="formatInputCurrency(this); calcExp()">
+                        <button onclick="addExp()"
+                            class="bg-red-600 text-white px-3 py-2 rounded-lg text-[9px] font-black uppercase">Chi</button>
                     </div>
+                    <div class="text-right mt-1"><span id="exp-preview" class="text-[10px] font-black text-red-600">↓
+                            0</span></div>
                 </div>
             </div>
         </div>
 
-        <!-- TIẾN ĐỘ HẠN MỨC -->
-        <div id="bars-section" class="bg-white p-5 rounded-3xl shadow-lg border-b-8 border-teal-950 mb-10">
-            <h3 id="bars-title" class="font-black text-[11px] text-teal-900 mb-6 uppercase border-l-4 border-teal-950 pl-2">Hạn mức chi tiêu</h3>
+        <div id="bars-section" class="bg-white p-4 rounded-3xl shadow-xl border-b-8 border-teal-950 mb-10">
+            <h3 id="bars-title"
+                class="font-black text-[10px] text-teal-900 mb-6 border-l-4 border-teal-900 pl-2 uppercase">Tiến độ hạn
+                mức</h3>
             <div id="dynamic-bars" class="space-y-6"></div>
         </div>
     </div>
 
-    <!-- SIDEBAR -->
     <div class="overlay" onclick="toggleSidebar()"></div>
     <div id="settings-sidebar">
-        <div class="flex justify-between items-center mb-6 pb-4 border-b">
-            <h2 class="font-black text-teal-950 uppercase text-sm">Cấu hình</h2>
-            <div class="flex flex-col items-center">
-                <span id="mode-label" class="text-[8px] font-bold text-red-500 mb-1">CHẾ ĐỘ: TEST</span>
-                <label class="switch"><input type="checkbox" id="mode-switch" onchange="confirmAndToggleMode()"><span class="slider"></span></label>
-            </div>
+        <div class="flex justify-between items-center mb-6 border-b pb-4">
+<h2 class="text-xs font-black text-teal-900 uppercase tracking-wide flex items-center gap-2">
+    <i class="fas fa-wallet"></i> Hạn mức chi tiêu cho tháng này
+</h2>            <button onclick="toggleSidebar()"><i class="fas fa-times text-gray-400"></i></button>
         </div>
         <div id="settings-content" class="space-y-4"></div>
-        <button onclick="toggleSidebar()" class="w-full mt-6 bg-teal-900 text-white py-3 rounded-xl font-bold text-sm">ĐÓNG CẤU HÌNH</button>
+        <div class="mt-8 pt-6 border-t space-y-4">
+            <button onclick="executeLimits()"
+                class="w-full bg-teal-900 text-white py-4 rounded-2xl font-black uppercase text-xs shadow-lg">Xác nhận
+                Thực thi</button>
+            <div class="text-center">
+                <button onclick="resetExecution()" class="text-[8px] text-red-400 font-bold uppercase underline">(Mô
+                    phỏng) Hủy thực thi</button>
+            </div>
+        </div>
     </div>
 
-    <!-- MODAL -->
-    <div id="catalog-modal" class="fixed inset-0 bg-black/80 z-[2000] hidden items-center justify-center p-2 backdrop-blur-md">
-        <div class="bg-white w-full max-h-[90vh] rounded-2xl flex flex-col overflow-hidden">
+    <div id="catalog-modal" class="fixed inset-0 bg-black/70 z-[2000] items-center justify-center p-2 backdrop-blur-sm">
+        <div class="bg-white w-full h-[90vh] rounded-2xl flex flex-col overflow-hidden">
             <div class="bg-teal-950 p-4 flex justify-between items-center text-white">
-                <button id="modal-back-btn" onclick="goBackModal()" class="hidden w-8 h-8"><i class="fas fa-arrow-left"></i></button>
-                <h3 id="modal-title" class="text-xs font-bold uppercase truncate px-2">Chi tiết</h3>
-                <button onclick="closeModal()" class="w-8 h-8"><i class="fas fa-times"></i></button>
-            </div>
-            <div class="flex-1 overflow-auto p-2">
-                <div class="table-responsive">
-                    <table class="main-table"><thead id="modal-thead"></thead><tbody id="modal-tbody"></tbody></table>
+                <div class="flex items-center truncate">
+                    <button id="modal-back-btn" onclick="goBackModal()" class="hidden mr-3"><i
+                            class="fas fa-arrow-left"></i></button>
+                    <h3 id="modal-title" class="text-[10px] font-black uppercase truncate">Chi tiết</h3>
                 </div>
+                <button onclick="closeModal()"
+                    class="w-8 h-8 flex items-center justify-center bg-white/10 rounded-full"><i
+                        class="fas fa-times"></i></button>
             </div>
-            <div id="modal-tfoot" class="p-3 bg-gray-100 font-bold text-xs text-center"></div>
+            <div class="p-2 overflow-y-auto flex-1 bg-gray-50">
+                <table class="main-table">
+                    <thead id="modal-thead"></thead>
+                    <tbody id="modal-tbody"></tbody>
+                </table>
+            </div>
+            <div id="modal-tfoot" class="bg-gray-200 p-3 font-black text-[10px] text-center border-t border-gray-300">
+            </div>
         </div>
     </div>
 
@@ -188,10 +368,11 @@
         const db = getFirestore(app);
         const currentUserId = "USER_LOGGED_IN_ID_123";
 
-        let allLimits = {}, currentLimit = {}, isTestMode = true, currentFilter = 'day', allExpenses = [], modalHistory = [];
+        let allLimits = {}, currentLimit = {}, allExpenses = [], modalHistory = [], currentFilter = 'day';
+
         const now = new Date();
         const monthId = `${String(now.getMonth() + 1).padStart(2, '0')}-${now.getFullYear()}`;
-        const defaults = { salary: 9400000, otExpectedHours: 30, otRate: 45000, tro: 2000000, dilai: 500000, anuong: 1500000, dautu: 1000000, phatsinh: 500000, confirmed: {} };
+        const defaults = { salary: 9400000, otExpectedHours: 30, otRate: 45000, tro: 2000000, dilai: 500000, anuong: 1500000, dautu: 1000000, phatsinh: 500000, confirmed: {}, isExecuted: false };
 
         window.formatNumber = (num) => num ? num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") : "0";
         window.unformatNumber = (str) => str ? Number(str.toString().replace(/\./g, '')) : 0;
@@ -219,49 +400,58 @@
         initApp();
 
         window.toggleSidebar = () => {
-            const s = document.getElementById('settings-sidebar');
-            s.classList.toggle('active');
-            document.querySelector('.overlay').style.display = s.classList.contains('active') ? 'block' : 'none';
+            document.getElementById('settings-sidebar').classList.toggle('active');
+            document.querySelector('.overlay').style.display = document.getElementById('settings-sidebar').classList.contains('active') ? 'block' : 'none';
         }
 
-        window.logout = () => { if(confirm("Đăng xuất?")) window.location.href = "index.html"; }
-
-        window.confirmAndToggleMode = () => {
-            const sw = document.getElementById("mode-switch"), lb = document.getElementById("mode-label");
-            if (sw.checked) {
-                if (confirm("Chuyển sang THỰC THI? Những ô đã tick sẽ bị khóa.")) {
-                    isTestMode = false; lb.innerText = "CHẾ ĐỘ: THỰC THI"; lb.className = "text-[8px] font-bold text-green-600 mb-1"; renderSettings();
-                } else sw.checked = false;
-            } else {
-                isTestMode = true; lb.innerText = "CHẾ ĐỘ: TEST"; lb.className = "text-[8px] font-bold text-red-500 mb-1"; renderSettings();
-            }
-        };
-
+window.logout = () => {
+    window.location.href = "main.html";
+};
         window.toggleFieldConfirm = async (k) => {
-            if (!isTestMode && currentLimit.confirmed[k]) return;
+            if (currentLimit.isExecuted) { alert("Dữ liệu đã thực thi, không thể sửa!"); return; }
             currentLimit.confirmed[k] = !currentLimit.confirmed[k];
             if (currentLimit.confirmed[k]) currentLimit[k] = window.unformatNumber(document.getElementById(`set-${k}`).value);
             await setDoc(doc(db, "limits", `${currentUserId}_${monthId}`), { ...currentLimit, uid: currentUserId });
         };
 
+        window.executeLimits = async () => {
+            const keys = ['salary', 'otExpectedHours', 'otRate', 'tro', 'dilai', 'anuong', 'dautu', 'phatsinh'];
+            const allChecked = keys.every(k => currentLimit.confirmed[k] === true);
+            if (!allChecked) { alert("LỖI: Phải tích xanh toàn bộ 8 mục để thực thi!"); return; }
+            if (confirm("XÁC NHẬN: Khóa hạn mức tháng này?")) {
+                currentLimit.isExecuted = true;
+                await setDoc(doc(db, "limits", `${currentUserId}_${monthId}`), { ...currentLimit, uid: currentUserId });
+                toggleSidebar();
+            }
+        };
+
+        window.resetExecution = async () => {
+            if (confirm("MÔ PHỎNG: Hủy thực thi?")) {
+                currentLimit.isExecuted = false;
+                await setDoc(doc(db, "limits", `${currentUserId}_${monthId}`), { ...currentLimit, uid: currentUserId });
+            }
+        };
+
         function renderSettings() {
             const keys = [
-                { k: 'salary', l: 'Lương cố định', icon: 'fa-money-bill' }, { k: 'otExpectedHours', l: 'Giờ TC dự kiến', icon: 'fa-clock' },
-                { k: 'otRate', l: 'Giá TC/1h', icon: 'fa-bolt' }, { k: 'tro', l: 'Trọ & Điện', icon: 'fa-home' },
-                { k: 'dilai', l: 'Đi lại', icon: 'fa-motorcycle' }, { k: 'anuong', l: 'Ăn uống', icon: 'fa-utensils' },
-                { k: 'dautu', l: 'Đầu tư', icon: 'fa-chart-line' }, { k: 'phatsinh', l: 'Khác', icon: 'fa-box' }
+                { k: 'salary', l: 'Lương cố định' }, { k: 'otExpectedHours', l: 'TC dự kiến (h)' },
+                { k: 'otRate', l: 'Giá TC/h' }, { k: 'tro', l: 'Trọ & Điện' },
+                { k: 'dilai', l: 'Đi lại' }, { k: 'anuong', l: 'Ăn uống' },
+                { k: 'dautu', l: 'Đầu tư' }, { k: 'phatsinh', l: 'Khác' }
             ];
             let html = "";
             keys.forEach(item => {
-                const isLocked = !isTestMode && currentLimit.confirmed[item.k];
+                const isConfirmed = currentLimit.confirmed[item.k];
+                const isLocked = currentLimit.isExecuted || isConfirmed;
                 html += `
-                <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-100">
-                    <label class="text-[9px] font-black text-gray-400 uppercase flex items-center gap-2 mb-1"><i class="fas ${item.icon}"></i> ${item.l}</label>
-                    <div class="flex gap-2">
-                        <input type="text" id="set-${item.k}" value="${window.formatNumber(currentLimit[item.k])}" oninput="formatInputCurrency(this)" ${isLocked?'disabled':''} class="flex-1 bg-gray-50 p-2 rounded-lg text-xs font-bold currency-input">
-                        <button onclick="toggleFieldConfirm('${item.k}')" class="${currentLimit.confirmed[item.k]?'text-green-500':'text-gray-200'} text-xl">
-                            <i class="fas ${isLocked?'fa-lock text-red-400':'fa-check-circle'}"></i>
-                        </button>
+                <div class="bg-white p-3 rounded-xl border border-gray-100 shadow-sm">
+                    <label class="text-[9px] font-black uppercase text-gray-400 mb-1 flex justify-between">
+                        <span>${item.l}</span>
+                        ${isConfirmed ? '<span class="text-green-600">ĐÃ KHÓA</span>' : ''}
+                    </label>
+                    <div class="flex items-center gap-2 bg-gray-50 p-2 rounded-lg border ${isConfirmed ? 'border-green-200' : 'border-gray-200'}">
+                        <input type="text" id="set-${item.k}" value="${window.formatNumber(currentLimit[item.k])}" oninput="formatInputCurrency(this)" ${isLocked ? 'disabled' : ''} class="flex-1 font-black text-xs outline-none bg-transparent">
+                        <i class="fas fa-check-circle text-xl cursor-pointer ${isConfirmed ? 'text-green-500' : 'text-gray-300'}" onclick="toggleFieldConfirm('${item.k}')"></i>
                     </div>
                 </div>`;
             });
@@ -273,22 +463,22 @@
         window.calcExp = () => document.getElementById("exp-preview").innerText = "↓ " + window.formatNumber(window.unformatNumber(document.getElementById("exp-amount").value));
 
         const saveToDb = async (data) => {
-            const dStr = `${String(now.getDate()).padStart(2,'0')}-${String(now.getMonth()+1).padStart(2,'0')}-${now.getFullYear()}`;
+            const dStr = `${String(now.getDate()).padStart(2, '0')}-${String(now.getMonth() + 1).padStart(2, '0')}-${now.getFullYear()}`;
             const id = `${dStr}_${Date.now()}`;
             await setDoc(doc(db, "expenses", id), { ...data, uid: currentUserId, monthId, date: now.toISOString().split('T')[0], dateFormatted: dStr, ts: Date.now() });
         };
 
-        window.saveOT = async () => { const h = Number(document.getElementById("ot-hours").value); if(h>0){ await saveToDb({type:'income', amount:h*currentLimit.otRate, note:`TC (${h}h)`, category:'income'}); document.getElementById("ot-hours").value=""; window.calcOT();} };
-        window.saveOtherInc = async () => { const n = document.getElementById("inc-note").value, a = window.unformatNumber(document.getElementById("inc-amount").value); if(n && a>0){ await saveToDb({type:'income', amount:a, note:n, category:'other_income'}); document.getElementById("inc-note").value=""; document.getElementById("inc-amount").value=""; } };
-        window.addExp = async () => { const n = document.getElementById("exp-note").value, a = window.unformatNumber(document.getElementById("exp-amount").value), c = document.getElementById("exp-category").value; if(n && a>0){ await saveToDb({type:'expense', amount:a, note:n, category:c}); document.getElementById("exp-note").value=""; document.getElementById("exp-amount").value=""; window.calcExp();} };
-        window.deleteItem = async (id) => { if(confirm("Xóa?")) await deleteDoc(doc(db, "expenses", id)); };
+        window.saveOT = async () => { const h = Number(document.getElementById("ot-hours").value); if (h > 0) { await saveToDb({ type: 'income', amount: h * currentLimit.otRate, note: `TC (${h}h)`, category: 'income' }); document.getElementById("ot-hours").value = ""; window.calcOT(); } };
+        window.saveOtherInc = async () => { const n = document.getElementById("inc-note").value, a = window.unformatNumber(document.getElementById("inc-amount").value); if (n && a > 0) { await saveToDb({ type: 'income', amount: a, note: n, category: 'other_income' }); document.getElementById("inc-note").value = ""; document.getElementById("inc-amount").value = ""; } };
+        window.addExp = async () => { const n = document.getElementById("exp-note").value, a = window.unformatNumber(document.getElementById("exp-amount").value), c = document.getElementById("exp-category").value; if (n && a > 0) { await saveToDb({ type: 'expense', amount: a, note: n, category: c }); document.getElementById("exp-note").value = ""; document.getElementById("exp-amount").value = ""; window.calcExp(); } };
+        window.deleteItem = async (id) => { if (confirm("Xóa?")) await deleteDoc(doc(db, "expenses", id)); };
 
         window.setFilter = (f) => {
             currentFilter = f;
             document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
             document.getElementById(`f-${f}`).classList.add('active');
             document.getElementById("filter-status").innerText = f.toUpperCase();
-            document.getElementById("input-container").style.display = (f === 'day') ? 'block' : 'none';
+            document.getElementById("input-container").style.display = (f === 'day') ? 'grid' : 'none';
             document.getElementById("chart-section").style.display = (f === 'day') ? 'none' : 'block';
             renderTable(); renderBars();
         };
@@ -297,119 +487,115 @@
             const filtered = allExpenses.filter(d => {
                 const dt = new Date(d.date);
                 if (currentFilter === 'day') return d.date === now.toISOString().split('T')[0];
-                if (currentFilter === 'week') return Math.floor((now-dt)/86400000) < 7 && getWeekNumber(dt) === getWeekNumber(now);
+                if (currentFilter === 'week') return Math.floor((now - dt) / 86400000) < 7 && getWeekNumber(dt) === getWeekNumber(now);
                 if (currentFilter === 'month') return d.monthId === monthId;
                 if (currentFilter === 'year') return dt.getFullYear() === now.getFullYear();
                 return dt.getFullYear() >= 2026;
             });
 
             const thead = document.getElementById("table-head"), tbody = document.getElementById("expense-body"), tfoot = document.getElementById("table-foot");
-            let sumIn = 0, sumOut = 0;
+            let sIn = 0, sOut = 0;
 
             if (currentFilter === 'day') {
-                thead.innerHTML = `<tr><th width="40">STT</th><th>Số Tiền</th><th>Nội dung</th><th width="40">X</th></tr>`;
-                tbody.innerHTML = filtered.sort((a,b)=>b.ts-a.ts).map((d,i)=>{
-                    if(d.type==='income') sumIn+=d.amount; else sumOut+=d.amount;
-                    return `<tr><td>${i+1}</td><td class="${d.type==='income'?'text-green-600':'text-red-600'} font-bold">${window.formatNumber(d.amount)}</td><td class="text-left font-medium">${d.note}</td><td><button onclick="deleteItem('${d.id}')" class="text-red-300"><i class="fas fa-trash"></i></button></td></tr>`;
-                }).join('') || "<tr><td colspan='4' class='py-4 italic'>Không có dữ liệu</td></tr>";
-                tfoot.innerHTML = `Thu: <span class="text-green-600">+${window.formatNumber(sumIn)}</span> | Chi: <span class="text-red-600">-${window.formatNumber(sumOut)}</span>`;
+                thead.innerHTML = `<tr><th style="width:10%">#</th><th style="width:35%">Tiền</th><th style="width:45%">Nội dung</th><th style="width:10%">X</th></tr>`;
+                tbody.innerHTML = filtered.sort((a, b) => b.ts - a.ts).map((d, i) => {
+                    if (d.type === 'income') sIn += d.amount; else sOut += d.amount;
+                    return `<tr><td>${i + 1}</td><td class="${d.type === 'income' ? 'text-green-600' : 'text-red-600'} font-black">${window.formatNumber(d.amount)}</td><td class="text-left font-bold">${d.note}</td><td><button onclick="deleteItem('${d.id}')" class="text-red-300"><i class="fas fa-times"></i></button></td></tr>`;
+                }).join('') || "<tr><td colspan='4' class='py-4'>Trống</td></tr>";
+                tfoot.innerHTML = `
+  <span class="text-green-700 font-black">Thu: +${window.formatNumber(sIn)}</span> | 
+  <span class="text-red-700 font-black">Chi: -${window.formatNumber(sOut)}</span>
+`;
             } else {
-                thead.innerHTML = `<tr><th>Thời gian</th><th>Thu (+)</th><th>Chi (-)</th><th width="40">Vào</th></tr>`;
-                const groups = {};
+                thead.innerHTML = `<tr><th style="width:35%">T.Gian</th><th style="width:27%">Thu (+)</th><th style="width:28%">Chi (-)</th><th style="width:10%">#</th></tr>`;
+                const g = {};
                 filtered.forEach(curr => {
-                    let k, label, target, context; const dt = new Date(curr.date);
-                    if (currentFilter === 'century') { k = dt.getFullYear().toString(); label = `Năm ${k}`; target = 'months'; context = 'year'; }
-                    else if (currentFilter === 'year') { k = curr.monthId; label = `Tháng ${dt.getMonth()+1}`; target = 'weeks'; context = 'month'; }
-                    else if (currentFilter === 'month') { const w = getWeekNumber(dt); k = `W${w}-${dt.getFullYear()}`; label = `Tuần ${w}`; target = 'days'; context = 'week'; }
-                    else if (currentFilter === 'week') { k = curr.dateFormatted; label = k.substring(0,5); target = 'transactions'; context = 'day'; }
-                    if (!groups[k]) groups[k] = { in: 0, out: 0, label, target, context };
-                    if (curr.type === 'income') groups[k].in += curr.amount; else groups[k].out += curr.amount;
+                    let k, label, target, context, dt = new Date(curr.date);
+                    if (currentFilter === 'century') { k = dt.getFullYear().toString(); label = `Y${k}`; target = 'months'; context = 'year'; }
+                    else if (currentFilter === 'year') { k = curr.monthId; label = `M${dt.getMonth() + 1}`; target = 'weeks'; context = 'month'; }
+                    else if (currentFilter === 'month') { const w = getWeekNumber(dt); k = `W${w}-${dt.getFullYear()}`; label = `W${w}`; target = 'days'; context = 'week'; }
+                    else if (currentFilter === 'week') { k = curr.dateFormatted; label = `D${k.substring(0, 2)}`; target = 'transactions'; context = 'day'; }
+                    if (!g[k]) g[k] = { in: 0, out: 0, label, target, context };
+                    if (curr.type === 'income') g[k].in += curr.amount; else g[k].out += curr.amount;
                 });
-                tbody.innerHTML = Object.keys(groups).sort().map(k => {
-                    sumIn += groups[k].in; sumOut += groups[k].out;
-                    return `<tr onclick="openModal('${groups[k].target}', '${groups[k].context}', '${k}')"><td>${groups[k].label}</td><td class="text-green-600">+${window.formatNumber(groups[k].in)}</td><td class="text-red-600">-${window.formatNumber(groups[k].out)}</td><td><i class="fas fa-eye text-teal-600"></i></td></tr>`;
-                }).join('');
-                tfoot.innerHTML = `TỔNG CỘNG THU: +${window.formatNumber(sumIn)} | CHI: -${window.formatNumber(sumOut)}`;
-                renderColumnChart(groups);
+                tbody.innerHTML = Object.keys(g).sort().map(k => {
+                    sIn += g[k].in; sOut += g[k].out;
+                    return `<tr class="table-row-hover" onclick="openModal('${g[k].target}', '${g[k].context}', '${k}')"><td>${g[k].label}</td><td class="text-green-600 font-bold">+${window.formatNumber(g[k].in)}</td><td class="text-red-600 font-bold">-${window.formatNumber(g[k].out)}</td><td><i class="fas fa-search-plus text-teal-600"></i></td></tr>`;
+                }).join('') || "<tr><td colspan='4' class='py-4 italic'>Trống</td></tr>";
+
+                let totSal = 0;
+                Object.keys(allLimits).forEach(lKey => {
+                    const yr = Number(lKey.split('-')[1]);
+                    if ((currentFilter === 'month' && lKey === monthId) || (currentFilter === 'year' && yr === now.getFullYear()) || currentFilter === 'century') totSal += Number(allLimits[lKey].salary);
+                });
+                const rem = (totSal * 0.895) + sIn - sOut;
+                tfoot.innerHTML = `Dư kỳ này: <span class="text-red-600 font-black">${window.formatNumber(rem)} đ</span>`;
+                renderColumnChart(g);
             }
         }
 
-        function renderColumnChart(groups) {
-            const keys = Object.keys(groups).sort();
+        function renderColumnChart(g) {
+            const keys = Object.keys(g).sort();
             document.getElementById("chart-bars").innerHTML = keys.map(k => {
-                const total = groups[k].in + groups[k].out || 1;
+                const t = g[k].in + g[k].out || 1;
                 return `<div class="chart-column" style="height: 100%">
-                    <div class="part-expense rounded-t-sm" style="height: ${(groups[k].out/total)*100}%"></div>
-                    <div class="part-income rounded-b-sm" style="height: ${(groups[k].in/total)*100}%"></div>
-                    <div class="chart-label">${groups[k].label.replace(/\D/g,'')}</div>
+                    <div class="part-expense" style="height: ${(g[k].out / t) * 100}%"></div>
+                    <div class="part-income" style="height: ${(g[k].in / t) * 100}%"></div>
+                    <div class="chart-label">${g[k].label}</div>
                 </div>`;
             }).join('');
         }
 
         function renderBars() {
             const [m, y] = monthId.split('-').map(Number);
-            const prevId = `${String(m===1?12:m-1).padStart(2,'0')}-${m===1?y-1:y}`;
-            const prevLimit = allLimits[prevId] || defaults;
-            const prevExp = allExpenses.filter(d => d.monthId === prevId);
-            let prevTotals = { tro:0, dilai:0, anuong:0, dautu:0, phatsinh:0, ot:0 };
-            prevExp.forEach(d => { if(d.category==='income') prevTotals.ot+=d.amount; else if(d.type==='expense') prevTotals[d.category]+=d.amount; });
-
-            let curAgg = { tro:0, dilai:0, anuong:0, dautu:0, phatsinh:0, otH:0, otR: currentLimit.otRate };
-            if (['day','week','month'].includes(currentFilter)) {
-                ['tro','dilai','anuong','dautu','phatsinh','otExpectedHours'].forEach(k => curAgg[k==='otExpectedHours'?'otH':k] = currentLimit[k]);
+            const prevId = `${String(m === 1 ? 12 : m - 1).padStart(2, '0')}-${m === 1 ? y - 1 : y}`;
+            let curAgg = { tro: 0, dilai: 0, anuong: 0, dautu: 0, phatsinh: 0, otH: 0, otR: currentLimit.otRate };
+            if (['day', 'week', 'month'].includes(currentFilter)) {
+                ['tro', 'dilai', 'anuong', 'dautu', 'phatsinh', 'otExpectedHours'].forEach(k => curAgg[k === 'otExpectedHours' ? 'otH' : k] = currentLimit[k]);
             } else {
                 Object.keys(allLimits).forEach(lKey => {
                     const yr = Number(lKey.split('-')[1]);
-                    if ((currentFilter==='year' && yr===now.getFullYear()) || currentFilter==='century') {
-                        ['tro','dilai','anuong','dautu','phatsinh'].forEach(cat => curAgg[cat] += allLimits[lKey][cat]);
-                        curAgg.otH += allLimits[lKey].otExpectedHours;
+                    if ((currentFilter === 'year' && yr === now.getFullYear()) || currentFilter === 'century') {
+                        ['tro', 'dilai', 'anuong', 'dautu', 'phatsinh'].forEach(cat => curAgg[cat] += Number(allLimits[lKey][cat]));
+                        curAgg.otH += Number(allLimits[lKey].otExpectedHours);
                     }
                 });
             }
-
             const currentFiltered = allExpenses.filter(d => {
                 const dt = new Date(d.date);
                 if (currentFilter === 'day') return d.date === now.toISOString().split('T')[0];
-                if (currentFilter === 'week') return Math.floor((now-dt)/86400000) < 7;
+                if (currentFilter === 'week') return Math.floor((now - dt) / 86400000) < 7;
                 if (currentFilter === 'month') return d.monthId === monthId;
                 if (currentFilter === 'year') return dt.getFullYear() === now.getFullYear();
                 return true;
             });
-
-            let totals = { tro:0, dilai:0, anuong:0, dautu:0, phatsinh:0, ot:0 };
-            currentFiltered.forEach(d => { if(d.category==='income') totals.ot+=d.amount; else if(d.type==='expense') totals[d.category]+=d.amount; });
-
+            let totals = { tro: 0, dilai: 0, anuong: 0, dautu: 0, phatsinh: 0, ot: 0 };
+            currentFiltered.forEach(d => { if (d.category === 'income') totals.ot += d.amount; else if (d.type === 'expense') totals[d.category] += d.amount; });
             const cats = [
-                { k:'ot', l:'⚡ KPI Tăng ca', max: curAgg.otH * curAgg.otR, color:'linear-gradient(90deg, #10b981, #34d399)' },
-                { k:'tro', l:'🏠 Trọ & Điện', max: curAgg.tro, color:'linear-gradient(90deg, #ef4444, #f87171)' },
-                { k:'dilai', l:'🛵 Đi lại', max: curAgg.dilai, color:'linear-gradient(90deg, #f59e0b, #fbbf24)' },
-                { k:'anuong', l:'🍔 Ăn uống', max: curAgg.anuong, color:'linear-gradient(90deg, #3b82f6, #60a5fa)' },
-                { k:'dautu', l:'📈 Đầu tư', max: curAgg.dautu, color:'linear-gradient(90deg, #8b5cf6, #a78bfa)' },
-                { k:'phatsinh', l:'📦 Khác', max: curAgg.phatsinh, color:'linear-gradient(90deg, #64748b, #94a3b8)' }
+                { k: 'ot', l: '⚡ KPI Tăng ca', max: curAgg.otH * curAgg.otR, color: '#2563eb' },
+                { k: 'tro', l: '🏠 Trọ & Điện', max: curAgg.tro, color: '#ef4444' },
+                { k: 'dilai', l: '🛵 Đi lại', max: curAgg.dilai, color: '#f59e0b' },
+                { k: 'anuong', l: '🍔 Ăn uống', max: curAgg.anuong, color: '#3b82f6' },
+                { k: 'dautu', l: '📈 Đầu tư', max: curAgg.dautu, color: '#8b5cf6' },
+                { k: 'phatsinh', l: '📦 Khác', max: curAgg.phatsinh, color: '#64748b' }
             ];
-
             document.getElementById("dynamic-bars").innerHTML = cats.map(c => {
-                const pct = Math.min((totals[c.k]/ (c.max || 1))*100, 100);
+                const pct = Math.min((totals[c.k] / (c.max || 1)) * 100, 100);
                 return `<div>
-                    <div class="flex justify-between text-[9px] font-bold mb-1 uppercase text-teal-900">
-                        <span>${c.l}</span>
-                        <span>${window.formatNumber(totals[c.k])} / ${window.formatNumber(c.max)}</span>
+                    <div class="flex justify-between text-[9px] font-bold mb-1 text-teal-900 uppercase">
+                        <span>${c.l}</span><span>${window.formatNumber(totals[c.k])} / ${window.formatNumber(c.max)}</span>
                     </div>
-                    <div class="bar-3d-track">
-                        <div class="bar-3d-fill" style="width: ${pct}%; background: ${c.color}">${totals[c.k]>0?Math.round(pct)+'%':''}</div>
-                    </div>
+                    <div class="bar-3d-track"><div class="bar-3d-fill" style="width: ${pct}%; background: ${c.color}">${totals[c.k] > 0 ? Math.round(pct) + '%' : ''}</div></div>
                 </div>`;
             }).join('');
         }
 
-        window.openModal = (target, context, val, isBack=false) => {
+        window.openModal = (target, context, val, isBack = false) => {
             const m = document.getElementById("catalog-modal");
-            if (!isBack && m.style.display==='flex') modalHistory.push(JSON.parse(m.getAttribute("data-state")));
-            m.setAttribute("data-state", JSON.stringify({target, context, val}));
-            m.style.display = 'flex';
-            document.getElementById("modal-title").innerText = val;
+            if (!isBack && m.classList.contains("active")) modalHistory.push(JSON.parse(m.getAttribute("data-state")));
+            m.setAttribute("data-state", JSON.stringify({ target, context, val }));
+            m.classList.add("active"); document.getElementById("modal-title").innerText = val;
             document.getElementById("modal-back-btn").style.display = modalHistory.length > 0 ? 'block' : 'none';
-
             const sub = allExpenses.filter(d => {
                 const dt = new Date(d.date);
                 if (context === 'year') return dt.getFullYear().toString() === val;
@@ -418,39 +604,40 @@
                 if (context === 'day') return d.dateFormatted === val;
                 return false;
             });
-
             const thead = document.getElementById("modal-thead"), tbody = document.getElementById("modal-tbody"), tfoot = document.getElementById("modal-tfoot");
             let sIn = 0, sOut = 0;
-
             if (target === 'transactions') {
-                thead.innerHTML = `<tr><th>Loại</th><th>Số Tiền</th><th>Ghi chú</th></tr>`;
-                tbody.innerHTML = sub.sort((a,b)=>b.ts-a.ts).map(d => {
-                    if(d.type==='income') sIn+=d.amount; else sOut+=d.amount;
-                    return `<tr><td class="text-[9px] uppercase">${d.category}</td><td class="${d.type==='income'?'text-green-600':'text-red-600'} font-bold">${window.formatNumber(d.amount)}</td><td class="text-left text-[10px]">${d.note}</td></tr>`;
+                thead.innerHTML = `<tr><th style="width:20%">Loại</th><th style="width:30%">Tiền</th><th style="width:50%">Nội dung</th></tr>`;
+                tbody.innerHTML = sub.sort((a, b) => b.ts - a.ts).map(d => {
+                    if (d.type === 'income') sIn += d.amount; else sOut += d.amount;
+                    return `<tr><td class="uppercase text-[8px]">${d.category.substring(0, 5)}</td><td class="${d.type === 'income' ? 'text-green-600' : 'text-red-600'} font-black">${window.formatNumber(d.amount)}</td><td class="text-left font-bold">${d.note}</td></tr>`;
                 }).join('');
-                tfoot.innerHTML = `Thu: +${window.formatNumber(sIn)} | Chi: -${window.formatNumber(sOut)}`;
             } else {
-                thead.innerHTML = `<tr><th>Thời gian</th><th>Thu (+)</th><th>Chi (-)</th><th>></th></tr>`;
+                thead.innerHTML = `<tr><th style="width:35%">Thời gian</th><th style="width:27%">Thu</th><th style="width:28%">Chi</th><th style="width:10%">#</th></tr>`;
                 const g = {};
                 sub.forEach(curr => {
-                    let k, label, nextT, nextC; const dt = new Date(curr.date);
-                    if (target === 'months') { k = curr.monthId; label = `Tháng ${dt.getMonth()+1}`; nextT = 'weeks'; nextC = 'month'; }
-                    else if (target === 'weeks') { const w = getWeekNumber(dt); k = `W${w}-${dt.getFullYear()}`; label = `T. ${w}`; nextT = 'days'; nextC = 'week'; }
-                    else if (target === 'days') { k = curr.dateFormatted; label = k.substring(0,5); nextT = 'transactions'; nextC = 'day'; }
+                    let k, label, nextT, nextC, dt = new Date(curr.date);
+                    if (target === 'months') { k = curr.monthId; label = `M${dt.getMonth() + 1}`; nextT = 'weeks'; nextC = 'month'; }
+                    else if (target === 'weeks') { const w = getWeekNumber(dt); k = `W${w}-${dt.getFullYear()}`; label = `W${w}`; nextT = 'days'; nextC = 'week'; }
+                    else if (target === 'days') { k = curr.dateFormatted; label = `D${k.substring(0, 2)}`; nextT = 'transactions'; nextC = 'day'; }
                     if (!g[k]) g[k] = { in: 0, out: 0, label, nextT, nextC };
                     if (curr.type === 'income') g[k].in += curr.amount; else g[k].out += curr.amount;
                 });
                 tbody.innerHTML = Object.keys(g).sort().map(k => {
                     sIn += g[k].in; sOut += g[k].out;
-                    return `<tr onclick="openModal('${g[k].nextT}', '${g[k].nextC}', '${k}')"><td>${g[k].label}</td><td class="text-green-600">+${window.formatNumber(g[k].in)}</td><td class="text-red-600">-${window.formatNumber(g[k].out)}</td><td><i class="fas fa-chevron-right"></i></td></tr>`;
+                    return `<tr onclick="openModal('${g[k].nextT}', '${g[k].nextC}', '${k}')"><td>${g[k].label}</td><td class="text-green-600 font-bold">+${window.formatNumber(g[k].in)}</td><td class="text-red-600 font-bold">-${window.formatNumber(g[k].out)}</td><td><i class="fas fa-search-plus"></i></td></tr>`;
                 }).join('');
-                tfoot.innerHTML = `Tổng Thu: +${window.formatNumber(sIn)} | Tổng Chi: -${window.formatNumber(sOut)}`;
             }
+            tfoot.innerHTML = `
+  <span class="text-green-700 font-black">Thu: +${window.formatNumber(sIn)}</span> | 
+  <span class="text-red-700 font-black">Chi: -${window.formatNumber(sOut)}</span>
+`;
         };
 
-        window.goBackModal = () => { if(modalHistory.length > 0){ const p = modalHistory.pop(); openModal(p.target, p.context, p.val, true); } };
-        window.closeModal = () => { document.getElementById("catalog-modal").style.display='none'; modalHistory=[]; };
+        window.goBackModal = () => { if (modalHistory.length > 0) { const p = modalHistory.pop(); openModal(p.target, p.context, p.val, true); } };
+        window.closeModal = () => { document.getElementById("catalog-modal").classList.remove("active"); modalHistory = []; };
 
     </script>
 </body>
+
 </html>
